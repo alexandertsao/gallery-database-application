@@ -14,10 +14,10 @@ var app = express();
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password", 
-  database: "test_schema"
+  host: "db4free.net",
+  user: "cpsc3042023s4",
+  password: "renaissance", 
+  database: "gallerydatabase"
 });
 
 
