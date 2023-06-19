@@ -1,17 +1,21 @@
 import {postToServer, toSQL, sanitize} from "/public/shared.js";
 
-var physical = true;
+var type = "museum";
 
 function radioTypeSelected(e) {
     console.log(e);
     if (this.checked) {
         console.log(this.id);
-        if (this.id == 'radio-type-museum' || this.id == 'radio-type-art-gallery') {
-            physical = true;
+        if (this.id == 'radio-type-museum') {
+            type = "museum";
+            document.getElementById("div-physical-group").style.display = "block";
+            document.getElementById("div-virtual-group").style.display = "none";
+        } else if (this.id == 'radio-type-art-gallery') {
+            type = "art-gallery"
             document.getElementById("div-physical-group").style.display = "block";
             document.getElementById("div-virtual-group").style.display = "none";
         } else {
-            physical = false;
+            type = "virtual-art-gallery"
             document.getElementById("div-physical-group").style.display = "none";
             document.getElementById("div-virtual-group").style.display = "block";
         }
@@ -32,21 +36,32 @@ function setupForm() {
         
         var validInput = false;
         // TO DO: validate inputs
-        if (physical) {
-            if (validator.isAlphanumeric(document.getElementById("text-name").value, undefined, {ignore:" -"}) &&
-            validator.isAlphanumeric(document.getElementById("text-address").value, undefined, {ignore:" -"}) &&
-            validator.isAlphanumeric(document.getElementById("text-city").value, undefined, {ignore:" -"}) &&
-            validator.isAlphanumeric(document.getElementById("text-state-province").value, undefined, {ignore:" -"}) &&
-            validator.isAlphanumeric(document.getElementById("text-postal-code").value, undefined, {ignore:" -"}) &&
-            validator.isAlphanumeric(document.getElementById("text-country").value, undefined, {ignore:" -"})) {
+        const textName = document.getElementById("text-name").value;
+        if (type == "museum" || type == "art gallery") {
+            const textAddress = document.getElementById("text-address").value;
+            const textCity = document.getElementById("text-city").value;
+            const textStateProvince = document.getElementById("text-state-province").value;
+            const textPostalCode = document.getElementById("text-postal-code").value;
+            const textCountry = document.getElementById("text-country").value;
+            if (
+                validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
+                ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
+                ((validator.isAlphanumeric(textCity, undefined, {ignore:" -"}) && validator.isLength(textCity, { min: 0, max: 255 })) || validator.isEmpty(textCity)) &&
+                ((validator.isAlphanumeric(textStateProvince, undefined, {ignore:" -"}) && validator.isLength(textStateProvince, { min: 0, max: 255 })) || validator.isEmpty(textStateProvince)) &&
+                ((validator.isAlphanumeric(textPostalCode, undefined, {ignore:" -"}) && validator.isLength(textPostalCode, { min: 0, max: 255 })) || validator.isEmpty(textPostalCode)) &&
+                ((validator.isAlphanumeric(textCountry, undefined, {ignore:" -"}) && validator.isLength(textCountry, { min: 0, max: 255 })) || validator.isEmpty(textCountry))
+                ) {
                 validInput = true;
                 alert("Input is valid.");
             } else {
                 alert("Input is invalid.");
             }
-        } else {
-            if (validator.isAlphanumeric(document.getElementById("text-name").value, undefined, {ignore:" -"}) &&
-            validator.isURL(document.getElementById("text-url").value)) {
+        } else if (type == "virtual-art-gallery") {
+            const textURL = document.getElementById("text-url").value;
+            if (
+                validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
+                ((validator.isAlphanumeric(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
+                ) {
                 validInput = true;
                 alert("Input is valid.");
             } else {
