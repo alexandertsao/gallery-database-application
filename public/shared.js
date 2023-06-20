@@ -1,6 +1,4 @@
-// document.getElementById("result").innerHTML = "contacting backend server...";
-
-function postToServer(body, callbackSuccess, callbackFail, arg1, arg2) {
+function postToServer(query, callbackSuccess, callbackFail, arg1, arg2) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", "http://localhost:3000/sql");
 	xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
@@ -15,11 +13,37 @@ function postToServer(body, callbackSuccess, callbackFail, arg1, arg2) {
         }
 	  } else {
         console.log(xhr.status);
+        console.log(xhr.responseText);
         if (callbackFail != undefined)
             callbackFail(xhr.responseText);
 	  }
 	};
-	xhr.send(body);
+	xhr.send(query);
+}
+
+function multiPostToServer(response, queryArray, callbackFail) {
+    // queryArray in the form
+    // [{query: "", func: "", arg1: "", arg2: ""}]
+    // * must have same callbackFail
+    // * func(response, arg1, arg2) is only called on the last query
+    if (queryArray.length == 0) return;
+    
+    alert("multiPostToServer: " + queryArray[0].query);
+
+    if (queryArray.length == 1 && queryArray[0].func != undefined) {
+        postToServer(toSQL(queryArray[0].query),
+                     queryArray[0].func,
+                     callbackFail,
+                     query[0].arg1,
+                     query[0].arg2);
+    } else {
+        postToServer(toSQL(queryArray[0].query), 
+                     multiPostToServer, 
+                     callbackFail, 
+                     queryArray.slice(1), 
+                     callbackFail);
+    }
+    
 }
 
 function toSQL(str) {
@@ -66,4 +90,4 @@ function replaceUndefined(str) {
     return str;
 }
 
-export {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined};
+export {postToServer, multiPostToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined};
