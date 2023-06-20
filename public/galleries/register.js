@@ -59,7 +59,7 @@ function setupForm() {
         } else if (type == "virtual-art-gallery") {
             if (
                 validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
-                ((validator.isAlphanumeric(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
+                ((validator.isURL(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
                 ) {
                 validInput = true;
                 alert("Input is valid.");
@@ -71,37 +71,52 @@ function setupForm() {
         if (validInput) {
             var query = "INSERT INTO Gallery (name) VALUES (" +
                         "'" + sanitize(textName) + "'" + ");";
+
+            query += "SET @last_id = LAST_INSERT_ID();"
+
             var args = [];
-            if (type == "museum" || type == "art-gallery") {
-                args = [type, textAddress, textCity, textStateProvince, textPostalCode, textCountry]
+            if (type == "museum") {
+                args = ["Museum", textAddress, textCity, textStateProvince, textPostalCode, textCountry];
+            } else if (type == "art-gallery") {
+                args = ["Art_Gallery", textAddress, textCity, textStateProvince, textPostalCode, textCountry];
             } else if (type == "virtual-art-gallery") {
-                args = [type, textURL];
+                args = ["Virtual_Art_Gallery", textURL];
             }            
 
+            query += "INSERT INTO " + args[0] + " VALUES (@last_id, ";
+            for (var i = 1; i < args.length; i++) {
+                if (i == args.length - 1) {
+                    query += "'" + sanitize(args[i]) + "'";
+                } else {
+                    query += "'" + sanitize(args[i]) + "'" + ", ";
+                }
+            }
+            query += ");";
+
             alert(query);
-            postToServer(toSQL(query), addGalleryToSubclassTable, alertDatabaseError, args);
+            postToServer(toSQL(query),undefined, alertDatabaseError);
         }
 
       });
 }
 
-function addGalleryToSubclassTable(response, args) {
-    if (args.length == 0)
-        return;
-    
-    var query = "INSERT INTO " + args[0] + " VALUES ("
-    for (var i = 1; i < args.length; i++) {
-        if (i == args.length - 1) {
-            query += "'" + sanitize(args[i]) + "'";
-        } else {
-            query += "'" + sanitize(args[i]) + "'" + ", ";
-        }
-    }
+// function addGalleryToSubclassTable(response, args) {
+//     alert(response);
+//     if (args.length == 0) return;
 
-    query += ");";
-    alert(query);
-    postToServer(toSQL(query), undefined, alertDatabaseError);
-}
+//     var query = "INSERT INTO " + args[0] + " VALUES ("
+//     for (var i = 1; i < args.length; i++) {
+//         if (i == args.length - 1) {
+//             query += "'" + sanitize(args[i]) + "'";
+//         } else {
+//             query += "'" + sanitize(args[i]) + "'" + ", ";
+//         }
+//     }
+
+//     query += ");";
+//     alert(query);
+//     postToServer(toSQL(query), undefined, alertDatabaseError);
+// }
 
 $(function() {
     document.getElementById("div-physical-group").style.display = "block";
