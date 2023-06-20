@@ -96,7 +96,7 @@ CREATE TABLE Digital (
 CREATE TABLE Sculpture (
 	art_id 		INT,
 	material 	VARCHAR(255),
-	size 		FLOAT,
+	size 		VARCHAR(255),
 	PRIMARY KEY (art_id),
 	FOREIGN KEY (art_id) REFERENCES Art (art_id)
 		ON UPDATE CASCADE 
@@ -105,8 +105,8 @@ CREATE TABLE Sculpture (
 
 CREATE TABLE Painting (
 	art_id 		INT,
-	dimension 	VARCHAR(20),
-	medium 		VARCHAR(20),
+	dimension 	VARCHAR(255),
+	medium 		VARCHAR(255),
 	PRIMARY KEY (art_id),
 	FOREIGN KEY (art_id) REFERENCES Art (art_id)
 		ON UPDATE CASCADE 
