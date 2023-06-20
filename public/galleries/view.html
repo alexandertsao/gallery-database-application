@@ -55,20 +55,20 @@
           <div class="col-sm-8 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
             <h3>View Galleries</h3><hr>
-            <form class="form-horizontal" action="/action_page.php">
+            <form class="form-horizontal" id="form-view-galleries" action="">
               <div class="form-group">
                 <label class="control-label col-sm-2" for="email">Query:</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="search-query" placeholder="Enter a gallery name or ID #" name="search">
+                  <input type="text" class="form-control" id="text-query" placeholder="Enter a gallery name or ID #" name="text-query">
                 </div>
               </div>
               <div class="form-group">  
                 <label class="control-label col-sm-2">Filter by:</label>      
                 <div class="col-sm-10">
                   <div class="checkbox">
-                    <label class="col-sm-3"><input type="checkbox" name="filter-museum" checked>Museum</label>
-                    <label class="col-sm-3"><input type="checkbox" name="filter-art-gallery" checked>Art Gallery</label>
-                    <label class="col-sm-6"><input type="checkbox" name="filter-virtual-art-gallery" checked>Virtual Art Gallery</label>
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-filter-museum" name="checkbox-filter" checked>Museum</label>
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-filter-art-gallery" name="checkbox-filter" checked>Art Gallery</label>
+                    <label class="col-sm-6"><input type="checkbox" id="checkbox-filter-virtual-art-gallery" name="checkbox-filter" checked>Virtual Art Gallery</label>
                   </div>
                 </div>
               </div>
@@ -76,10 +76,15 @@
                 <label class="control-label col-sm-2">Display:</label>      
                 <div class="col-sm-10">
                   <div class="checkbox">
-                    <label class="col-sm-2"><input type="checkbox" name="display-name" checked>Name</label>
-                    <label class="col-sm-2"><input type="checkbox" name="display-id" checked>ID #</label>
-                    <label class="col-sm-2"><input type="checkbox" name="display-type" checked>Type</label>
-                    <label class="col-sm-6"><input type="checkbox" name="display-address-url" checked>Address/URL</label>
+                    <!-- <label class="col-sm-2"><input type="checkbox" id="checkbox-display-type" name="checkbox-display" checked>Type</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-name" name="checkbox-display" checked>Name</label> -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-address" name="checkbox-display" checked>Address</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-city" name="checkbox-display" checked>City</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-state-province" name="checkbox-display" checked>State/Province</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-postal-code" name="checkbox-display" checked>Postal Code</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-country" name="checkbox-display" checked>Country</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-url" name="checkbox-display" checked>URL</label>
                   </div>
                 </div>
               </div>
@@ -89,17 +94,22 @@
                 </div>
               </div>
             </form>        
-            <table class="table table-hover">
+            <table class="table table-hover" id="table-galleries">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>ID #</th>
                   <th>Type</th>
-                  <th>Address/URL</th>
+                  <th>ID #</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>City</th>
+                  <th>State/Province</th>
+                  <th>Postal Code</th>
+                  <th>Country</th>
+                  <th>URL</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
+              <tbody id="tbody-galleries">
+                <!-- <tr>
                   <td>Vancouver Art Gallery</td>
                   <td>10000</td>
                   <td>Art Gallery</td>
@@ -146,7 +156,7 @@
                   <td>10001</td>
                   <td>Art Gallery</td>
                   <td>317 Dundas St W, Toronto, ON M5T 1G4</td>
-                </tr>
+                </tr> -->
               </tbody>
             </table>
           </div>

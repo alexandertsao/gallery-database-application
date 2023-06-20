@@ -1,4 +1,4 @@
-import {postToServer, toSQL, sanitize} from "/public/shared.js";
+import {postToServer, toSQL, alertDatabaseError, sanitize} from "/public/shared.js";
 
 var type = "museum";
 
@@ -35,14 +35,14 @@ function setupForm() {
         e.preventDefault();
         
         var validInput = false;
-        // TO DO: validate inputs
         const textName = document.getElementById("text-name").value;
+        const textAddress = document.getElementById("text-address").value;
+        const textCity = document.getElementById("text-city").value;
+        const textStateProvince = document.getElementById("text-state-province").value;
+        const textPostalCode = document.getElementById("text-postal-code").value;
+        const textCountry = document.getElementById("text-country").value;
+        const textURL = document.getElementById("text-url").value;
         if (type == "museum" || type == "art gallery") {
-            const textAddress = document.getElementById("text-address").value;
-            const textCity = document.getElementById("text-city").value;
-            const textStateProvince = document.getElementById("text-state-province").value;
-            const textPostalCode = document.getElementById("text-postal-code").value;
-            const textCountry = document.getElementById("text-country").value;
             if (
                 validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
                 ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
@@ -57,7 +57,6 @@ function setupForm() {
                 alert("Input is invalid.");
             }
         } else if (type == "virtual-art-gallery") {
-            const textURL = document.getElementById("text-url").value;
             if (
                 validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
                 ((validator.isAlphanumeric(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
@@ -70,11 +69,35 @@ function setupForm() {
         }
 
         if (validInput) {
-            // TO DO: convert form inputs to SQL query
-            
+            var query = "INSERT INTO Gallery (name) VALUES (" +
+                        sanitize(textName) + ");";
+            var args = [];
+            if (type == "museum" || type == "art gallery") {
+                args = [type, textAddress, textCity, textStateProvince, textPostalCode, textCountry]
+            } else if (type == "virtual-art-gallery") {
+                args = [type, textURL];
+            }            
+            postToServer(toSQL(query), addGalleryToSubclassTable, alertDatabaseError, args);
         }
 
       });
+}
+
+function addGalleryToSubclassTable(response, args) {
+    if (args.length == 0)
+        return;
+    
+    var query = "INSERT INTO " + args[0] + " VALUES ("
+    for (var i = 1; i < args.length; i++) {
+        if (i == args.length - 1) {
+            query += args[i];
+        } else {
+            query += args[i] + ", ";
+        }
+    }
+
+    query += ");";
+    postToServer(toSQL(query), undefined, alertDatabaseError);
 }
 
 $(function() {

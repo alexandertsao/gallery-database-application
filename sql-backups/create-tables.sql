@@ -1,5 +1,5 @@
 CREATE TABLE Artist (
-	artist_id 	INT,
+	artist_id 	INT AUTO_INCREMENT,
 	birth_year 	INT,
 	death_year 	INT,
 	name 		VARCHAR(255) NOT NULL,
@@ -7,13 +7,13 @@ CREATE TABLE Artist (
 );
 
 CREATE TABLE Owner (
-	owner_id	INT,
+	owner_id	INT AUTO_INCREMENT,
 	name 		VARCHAR(255) NOT NULL,
 	PRIMARY KEY (owner_id)
 );
 
 CREATE TABLE Customer (
-	customer_id	INT,
+	customer_id	INT AUTO_INCREMENT,
 	name		VARCHAR(255) NOT NULL,
 	price_group	VARCHAR(255) NOT NULL,
 	email		VARCHAR(255) NOT NULL,
@@ -22,19 +22,19 @@ CREATE TABLE Customer (
 );
 
 CREATE TABLE Gallery (
-	gallery_id 	INT,
+	gallery_id 	INT AUTO_INCREMENT,
 	name 		VARCHAR(255) NOT NULL,
 	PRIMARY KEY (gallery_id) 
 );
 
 CREATE TABLE Curator (
-	curator_id	INT,
+	curator_id	INT AUTO_INCREMENT,
 	name		VARCHAR(255) NOT NULL,
 	PRIMARY KEY (curator_id)
 );
 
 CREATE TABLE Exhibit (
-	exhibit_id 	INT,
+	exhibit_id 	INT AUTO_INCREMENT,
 	gallery_id 	INT,
 	title 		VARCHAR(255),
 	start_date 	DATE,
@@ -46,7 +46,7 @@ CREATE TABLE Exhibit (
 );
 
 CREATE TABLE Art (
-	art_id 			INT,
+	art_id 			INT AUTO_INCREMENT,
 	owner_id 		INT NOT NULL,
 	title 			VARCHAR(255),
     year_created 	INT,
@@ -139,10 +139,12 @@ CREATE TABLE Oversees (
 );
 
 CREATE TABLE Art_Gallery (
-	gallery_id 	INT,
-	address 	VARCHAR(255),
-	city 		VARCHAR(255), 
-	country		VARCHAR(255),
+	gallery_id 		INT,
+	address 		VARCHAR(255),
+	city 			VARCHAR(255),
+	state_province 	VARCHAR(255),
+	postal_code		VARCHAR(255), 
+	country			VARCHAR(255),
 	PRIMARY KEY (gallery_id),
 	FOREIGN KEY (gallery_id ) REFERENCES Gallery (gallery_id)
 		ON UPDATE CASCADE 
@@ -151,9 +153,11 @@ CREATE TABLE Art_Gallery (
 
 CREATE TABLE Museum (
 	gallery_id 	INT,
-	address 	VARCHAR(255),
-	city 		VARCHAR(255), 
-	country		VARCHAR(255),
+	address 		VARCHAR(255),
+	city 			VARCHAR(255),
+	state_province 	VARCHAR(255),
+	postal_code		VARCHAR(255), 
+	country			VARCHAR(255),
 	PRIMARY KEY (gallery_id),
 	FOREIGN KEY (gallery_id ) REFERENCES Gallery (gallery_id)
 		ON UPDATE CASCADE 
@@ -179,11 +183,8 @@ CREATE TABLE Transfers (
 		ON UPDATE CASCADE,
 	FOREIGN KEY(origin) REFERENCES Gallery(gallery_id),
     FOREIGN KEY(destination) REFERENCES Gallery(gallery_id)
-		--ON DELETE SET NULL
-    	--returns an error if you uncomment since origin, destination are part of the primary key and therefore cannot be null
 );
 
---these tables are really weird
 CREATE TABLE CustomerVisitsExhibit (
 	customer_id	INT,
 	time		TIMESTAMP,
