@@ -7,7 +7,19 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const cors = require("cors");
+
 var app = express();
+
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: "db4free.net",
+  user: "cpsc3042023s4",
+  password: "renaissance", 
+  database: "gallerydatabase"
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +31,29 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors());
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+app.post('/sql', (req, res) => {
+	var data = req.body;
+	console.log(data);
+	
+	var sql = req.body.sql;
+	con.query(sql, function (err, result) {
+		if (err) throw err;
+		var json = JSON.stringify(result);
+		console.log("Result: " + json);
+		res.send(json);
+	});
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +70,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
