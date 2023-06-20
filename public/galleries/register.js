@@ -1,4 +1,4 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize} from "../shared.js";
+import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
 
 var type = "museum";
 
@@ -70,13 +70,15 @@ function setupForm() {
 
         if (validInput) {
             var query = "INSERT INTO Gallery (name) VALUES (" +
-                        + "&#39;" + sanitize(textName) + "&#39;" + ");";
+                        "'" + sanitize(textName) + "'" + ");";
             var args = [];
-            if (type == "museum" || type == "art gallery") {
+            if (type == "museum" || type == "art-gallery") {
                 args = [type, textAddress, textCity, textStateProvince, textPostalCode, textCountry]
             } else if (type == "virtual-art-gallery") {
                 args = [type, textURL];
             }            
+
+            alert(query);
             postToServer(toSQL(query), addGalleryToSubclassTable, alertDatabaseError, args);
         }
 
@@ -90,13 +92,14 @@ function addGalleryToSubclassTable(response, args) {
     var query = "INSERT INTO " + args[0] + " VALUES ("
     for (var i = 1; i < args.length; i++) {
         if (i == args.length - 1) {
-            query += "&#39;" + args[i] + "&#39;";
+            query += "'" + sanitize(args[i]) + "'";
         } else {
-            query += "&#39;" + args[i] + "&#39;" + ", ";
+            query += "'" + sanitize(args[i]) + "'" + ", ";
         }
     }
 
     query += ");";
+    alert(query);
     postToServer(toSQL(query), undefined, alertDatabaseError);
 }
 
