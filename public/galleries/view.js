@@ -1,4 +1,4 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize} from "/public/shared.js";
+import {postToServer, toSQL, alertDatabaseError, sanitize} from "../shared.js";
 
 function setupForm() {
     var registerForm = document.getElementById("form-view-galleries");
@@ -78,6 +78,7 @@ function setupForm() {
 }
 
 function loadTable(response) {
+    alert(response);
     var tableHTML = "";
     document.getElementById("tbody-galleries").innerHTML = tableHTML;
 }

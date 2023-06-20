@@ -1,4 +1,4 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize} from "/public/shared.js";
+import {postToServer, toSQL, alertDatabaseError, sanitize} from "../shared.js";
 
 var type = "museum";
 
@@ -70,7 +70,7 @@ function setupForm() {
 
         if (validInput) {
             var query = "INSERT INTO Gallery (name) VALUES (" +
-                        sanitize(textName) + ");";
+                        + "&#39;" + sanitize(textName) + "&#39;" + ");";
             var args = [];
             if (type == "museum" || type == "art gallery") {
                 args = [type, textAddress, textCity, textStateProvince, textPostalCode, textCountry]
@@ -90,9 +90,9 @@ function addGalleryToSubclassTable(response, args) {
     var query = "INSERT INTO " + args[0] + " VALUES ("
     for (var i = 1; i < args.length; i++) {
         if (i == args.length - 1) {
-            query += args[i];
+            query += "&#39;" + args[i] + "&#39;";
         } else {
-            query += args[i] + ", ";
+            query += "&#39;" + args[i] + "&#39;" + ", ";
         }
     }
 

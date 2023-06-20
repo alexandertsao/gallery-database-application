@@ -9,7 +9,7 @@ function postToServer(body, callbackSuccess, callbackFail, arg1, arg2) {
         if (arg1 != undefined) {
             callbackSuccess(xhr.responseText, arg1);
         } else if (arg2 != undefined) {
-            callbackSuccess(xhr.responseText, arg2);
+            callbackSuccess(xhr.responseText, arg1, arg2);
         } else if (callbackSuccess != undefined) {
             callbackSuccess(xhr.responseText);
         }
