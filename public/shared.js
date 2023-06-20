@@ -60,4 +60,10 @@ function sanitize(str) {
     });
 }
 
-export {postToServer, toSQL, alertDatabaseError, sanitize};
+function replaceUndefined(str) {
+    if (str == undefined)
+        return "";
+    return str;
+}
+
+export {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined};
