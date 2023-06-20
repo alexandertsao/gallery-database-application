@@ -1,4 +1,4 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
+import {postToServer, multiPostToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
 
 var type = "museum";
 
@@ -42,7 +42,7 @@ function setupForm() {
         const textPostalCode = document.getElementById("text-postal-code").value;
         const textCountry = document.getElementById("text-country").value;
         const textURL = document.getElementById("text-url").value;
-        if (type == "museum" || type == "art gallery") {
+        if (type == "museum" || type == "art-gallery") {
             if (
                 validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
                 ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
@@ -69,10 +69,10 @@ function setupForm() {
         }
 
         if (validInput) {
-            var query = "INSERT INTO Gallery (name) VALUES (" +
+            var query1 = "INSERT INTO Gallery (name) VALUES (" +
                         "'" + sanitize(textName) + "'" + ");";
 
-            query += "SET @last_id = LAST_INSERT_ID();"
+            var query2 = "SET @last_id = LAST_INSERT_ID();";
 
             var args = [];
             if (type == "museum") {
@@ -83,40 +83,25 @@ function setupForm() {
                 args = ["Virtual_Art_Gallery", textURL];
             }            
 
-            query += "INSERT INTO " + args[0] + " VALUES (@last_id, ";
+            var query3 = "INSERT INTO " + args[0] + " VALUES (@last_id, ";
             for (var i = 1; i < args.length; i++) {
                 if (i == args.length - 1) {
-                    query += "'" + sanitize(args[i]) + "'";
+                    query3 += "'" + sanitize(args[i]) + "'";
                 } else {
-                    query += "'" + sanitize(args[i]) + "'" + ", ";
+                    query3 += "'" + sanitize(args[i]) + "'" + ", ";
                 }
             }
-            query += ");";
+            query3 += ");";
 
-            alert(query);
-            postToServer(toSQL(query),undefined, alertDatabaseError);
+            const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
+                                {query: query2, func: undefined, arg1: undefined, arg2: undefined},
+                                {query: query3, func: undefined, arg1: undefined, arg2: undefined}];
+
+            multiPostToServer("", queryArray, alertDatabaseError);
         }
 
       });
 }
-
-// function addGalleryToSubclassTable(response, args) {
-//     alert(response);
-//     if (args.length == 0) return;
-
-//     var query = "INSERT INTO " + args[0] + " VALUES ("
-//     for (var i = 1; i < args.length; i++) {
-//         if (i == args.length - 1) {
-//             query += "'" + sanitize(args[i]) + "'";
-//         } else {
-//             query += "'" + sanitize(args[i]) + "'" + ", ";
-//         }
-//     }
-
-//     query += ");";
-//     alert(query);
-//     postToServer(toSQL(query), undefined, alertDatabaseError);
-// }
 
 $(function() {
     document.getElementById("div-physical-group").style.display = "block";
