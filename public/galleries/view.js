@@ -86,6 +86,81 @@ function setupForm() {
       });
 }
 
+function onClickEdit(event) {
+    var currentId = event.currentTarget.galleryId;
+    var formGroupIds = event.currentTarget.formGroupIds;
+    
+    for (var i = 0; i < formGroupIds.length; i++) {
+        const previousInnerHTML = document.getElementById(formGroupIds[i]).innerHTML;
+        document.getElementById(formGroupIds[i]).previousInnerHTML = previousInnerHTML;
+
+        document.getElementById(formGroupIds[i]).innerHTML = "<input type='text' class='form-control' id=edit-" + currentId +
+                                                             "' name='td-edit-" + currentId +
+                                                             "' value='" + 
+                                                             previousInnerHTML + "'>";
+    }
+
+    document.getElementById("button-edit-"+ currentId).style.display = "none";
+    document.getElementById("button-update-" + currentId).style.display = "block";
+    document.getElementById("button-cancel-" + currentId).style.display = "block";
+    document.getElementById("button-delete-" + currentId).style.display = "none";
+}
+
+function onClickUpdate(event) {
+    var currentId = event.currentTarget.galleryId;
+    var formGroupIds = event.currentTarget.formGroupIds;
+}
+
+function onClickCancel(event) {
+    var currentId = event.currentTarget.galleryId;
+    var formGroupIds = event.currentTarget.formGroupIds;
+
+    for (var i = 0; i < formGroupIds.length; i++) {
+        document.getElementById(formGroupIds[i]).innerHTML = document.getElementById(formGroupIds[i]).previousInnerHTML;
+
+        document.getElementById(formGroupIds[i]).previousInnerHTML = null;
+    }
+
+    document.getElementById("button-edit-"+ currentId).style.display = "block";
+    document.getElementById("button-update-" + currentId).style.display = "none";
+    document.getElementById("button-cancel-" + currentId).style.display = "none";
+    document.getElementById("button-delete-" + currentId).style.display = "block";
+}
+
+function onClickDelete(event) {
+    var currentId = event.currentTarget.galleryId;
+    var formGroupIds = event.currentTarget.formGroupIds;
+}
+
+function setupButtons(editButtons, updateButtons, cancelButtons, deleteButtons, args) {
+    
+    for (var i = 0; i < editButtons.length; i++) {
+        var formGroupIds = [];
+        if (args[0]) formGroupIds.push("form-group-gallery-address-" + editButtons[i].id);
+        if (args[1]) formGroupIds.push("form-group-gallery-city-" + editButtons[i].id);
+        if (args[2]) formGroupIds.push("form-group-gallery-state-province-" + editButtons[i].id);
+        if (args[3]) formGroupIds.push("form-group-gallery-postal-code-" + editButtons[i].id);
+        if (args[4]) formGroupIds.push("form-group-gallery-country-" + editButtons[i].id);
+        if (args[5]) formGroupIds.push("form-group-gallery-url-" + editButtons[i].id);
+
+        document.getElementById(editButtons[i].button_id).addEventListener("click", onClickEdit); 
+        document.getElementById(editButtons[i].button_id).galleryId = editButtons[i].id;
+        document.getElementById(editButtons[i].button_id).formGroupIds = formGroupIds;
+
+        document.getElementById(updateButtons[i].button_id).addEventListener("click", onClickUpdate); 
+        document.getElementById(updateButtons[i].button_id).galleryId = updateButtons[i].id;
+        document.getElementById(updateButtons[i].button_id).formGroupIds = formGroupIds;
+
+        document.getElementById(cancelButtons[i].button_id).addEventListener("click", onClickCancel); 
+        document.getElementById(cancelButtons[i].button_id).galleryId = cancelButtons[i].id;
+        document.getElementById(cancelButtons[i].button_id).formGroupIds = formGroupIds;
+        
+        document.getElementById(deleteButtons[i].button_id).addEventListener("click", onClickDelete); 
+        document.getElementById(deleteButtons[i].button_id).galleryId = deleteButtons[i].id;
+    }
+
+}
+
 function loadTable(response, args) {
     document.getElementById("tr-galleries-colnames").innerHTML = null;
     document.getElementById("tbody-galleries").innerHTML = null;
@@ -103,26 +178,45 @@ function loadTable(response, args) {
     if (args[3]) colnamesHTML += "<th>Postal Code</th>";
     if (args[4]) colnamesHTML += "<th>Country</th>";
     if (args[5]) colnamesHTML += "<th>URL</th>";
+    colnamesHTML += "<th>Actions</th>";
 
     document.getElementById("tr-galleries-colnames").innerHTML = colnamesHTML;
 
     var tableHTML = "";
+    var editButtons = [];
+    var updateButtons = [];
+    var cancelButtons = [];
+    var deleteButtons = [];
     for (var i = 0; i < data.length; i++) {
         var currentId = data[i].gallery_id;
         tableHTML += "<tr id='tr-gallery-" + currentId + "'>" +
+                     "<form class='form-horizontal' id='tr-edit-" + currentId + "' action=''>" +
                      "<td id='td-gallery-type-" + currentId + "'>" + data[i].type + "</td>" +
                      "<td id='td-gallery-id-" + currentId + "'>" + data[i].gallery_id + "</td>" +
-                     "<td id='td-gallery-name-" + currentId + "'>" + data[i].name + "</td>" +
-                     "<td id='td-gallery-address-" + currentId + "'>" + replaceUndefined(data[i].address) + "</td>" +
-                     "<td id='td-gallery-city-" + currentId + "'>" + replaceUndefined(data[i].city) + "</td>" +
-                     "<td id='td-gallery-state-province-" + currentId + "'>" + replaceUndefined(data[i].state_province) + "</td>" +
-                     "<td id='td-gallery-postal-code-" + currentId + "'>" + replaceUndefined(data[i].postal_code) + "</td>" +
-                     "<td id='td-gallery-country-" + currentId + "'>" + replaceUndefined(data[i].country) + "</td>" +
-                     "<td id='td-gallery-url-" + currentId + "'>" + replaceUndefined(data[i].url) + "</td>" +
-                     "</tr>";
+                     "<td id='td-gallery-name-" + currentId + "'>" + data[i].name + "</td>";
+        if (args[0]) tableHTML += "<td id='td-gallery-address-" + currentId + "'><div class='form-group' id='form-group-gallery-address-" + currentId + "'>" + replaceUndefined(data[i].address) + "</div></td>";
+        if (args[1]) tableHTML += "<td id='td-gallery-city-" + currentId + "'><div class='form-group' id='form-group-gallery-city-" + currentId + "'>" + replaceUndefined(data[i].city) + "</div></td>";
+        if (args[2]) tableHTML += "<td id='td-gallery-state-province-" + currentId + "'><div class='form-group' id='form-group-gallery-state-province-" + currentId + "'>" + replaceUndefined(data[i].state_province) + "</div></td>";
+        if (args[3]) tableHTML += "<td id='td-gallery-postal-code-" + currentId + "'><div class='form-group' id='form-group-gallery-postal-code-" + currentId + "'>" + replaceUndefined(data[i].postal_code) + "</div></td>";
+        if (args[4]) tableHTML += "<td id='td-gallery-country-" + currentId + "'><div class='form-group' id='form-group-gallery-country-" + currentId + "'>" + replaceUndefined(data[i].country) + "</div></td>";
+        if (args[5]) tableHTML += "<td id='td-gallery-url-" + currentId + "'><div class='form-group' id='form-group-gallery-url-" + currentId + "'>" + replaceUndefined(data[i].url) + "</div></td>";
+        tableHTML += "<td style='width: 150px' id='td-edit-delete-" + currentId + "'>" +
+                     "<button class='btn btn-primary' id='button-edit-" + currentId + "' style='margin-right: 5px'>Edit</button>" +
+                     "<button class='btn btn-primary' id='button-update-" + currentId + "' style='display: none'>Update</button>" +
+                     "<button class='btn btn-secondary' id='button-cancel-" + currentId + "' style='display: none'>Cancel</button>" +
+                     "<button class='btn btn-danger' id='button-delete-" + currentId + "'>Delete</button>" +
+                     "</td>" +
+                     "</form>" +
+                     "</tr>"; 
+        editButtons.push({button_id: "button-edit-" + currentId, id: currentId});
+        updateButtons.push({button_id: "button-update-" + currentId, id: currentId});
+        cancelButtons.push({button_id: "button-cancel-" + currentId, id: currentId});
+        deleteButtons.push({button_id: "button-delete-" + currentId, id: currentId});
     }
 
     document.getElementById("tbody-galleries").innerHTML = tableHTML;
+
+    setupButtons(editButtons, updateButtons, cancelButtons, deleteButtons, args);
 }
 
 $(function() {
