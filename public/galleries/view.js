@@ -1,4 +1,4 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
+import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined, multiPostToServer} from "../shared.js";
 
 function setupForm() {
     var registerForm = document.getElementById("form-view-galleries");
@@ -93,7 +93,7 @@ function onClickEdit(event) {
         const previousInnerHTML = document.getElementById(formGroupIds[i]).innerHTML;
         document.getElementById(formGroupIds[i]).previousInnerHTML = previousInnerHTML;
 
-        document.getElementById(formGroupIds[i]).innerHTML = "<input type='text' class='form-control' id=edit-" + currentId +
+        document.getElementById(formGroupIds[i]).innerHTML = "<input type='text' class='form-control' id='edit-" + formGroupIds[i] +
                                                              "' name='td-edit-" + currentId +
                                                              "' value='" + 
                                                              previousInnerHTML + "'>";
@@ -108,6 +108,95 @@ function onClickEdit(event) {
 function onClickUpdate(event) {
     var currentId = event.currentTarget.galleryId;
     var formGroupIds = event.currentTarget.formGroupIds;
+
+    //Validate inputs
+    alert("tried to update!");
+    
+    var validInput = false;
+    
+    alert("edit-" + formGroupIds[0]);
+    alert(document.getElementById("edit-" + formGroupIds[0]));
+    var textName = document.getElementById("edit-" + formGroupIds[0]).value;
+    var textAddress = "NULL";
+    var textCity = "NULL";
+    var textStateProvince = "NULL";
+    var textPostalCode = "NULL";
+    var textCountry = "NULL";
+    var textUrl = "NULL";
+    if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum" || 
+    document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
+        if (document.getElementById("edit-" + formGroupIds[1]) != null) textAddress = document.getElementById("edit-" + formGroupIds[1]).value;
+        if (document.getElementById("edit-" + formGroupIds[2]) != null) textCity = document.getElementById("edit-" + formGroupIds[2]).value;
+        if (document.getElementById("edit-" + formGroupIds[3]) != null) textStateProvince = document.getElementById("edit-" + formGroupIds[3]).value;
+        if (document.getElementById("edit-" + formGroupIds[4]) != null) textPostalCode = document.getElementById("edit-" + formGroupIds[4]).value;
+        if (document.getElementById("edit-" + formGroupIds[5]) != null) textCountry = document.getElementById("edit-" + formGroupIds[5]).value;
+    } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Virtual Art Gallery") {
+        if (document.getElementById("edit-" + formGroupIds[1]) != null) textUrl = document.getElementById("edit-" + formGroupIds[1]).value;
+    }
+
+    if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum" || 
+        document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
+        if (
+            validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
+            ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
+            ((validator.isAlphanumeric(textCity, undefined, {ignore:" -"}) && validator.isLength(textCity, { min: 0, max: 255 })) || validator.isEmpty(textCity)) &&
+            ((validator.isAlphanumeric(textStateProvince, undefined, {ignore:" -"}) && validator.isLength(textStateProvince, { min: 0, max: 255 })) || validator.isEmpty(textStateProvince)) &&
+            ((validator.isAlphanumeric(textPostalCode, undefined, {ignore:" -"}) && validator.isLength(textPostalCode, { min: 0, max: 255 })) || validator.isEmpty(textPostalCode)) &&
+            ((validator.isAlphanumeric(textCountry, undefined, {ignore:" -"}) && validator.isLength(textCountry, { min: 0, max: 255 })) || validator.isEmpty(textCountry))
+            ) {
+            validInput = true;
+            alert("Input is valid.");
+        } else {
+            alert("Input is invalid.");
+        }
+    } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Virtual Art Gallery") {
+        if (
+            validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
+            ((validator.isURL(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
+            ) {
+            validInput = true;
+            alert("Input is valid.");
+        } else {
+            alert("Input is invalid.");
+        }
+    }
+
+    if (validInput) {
+        var query1 = "UPDATE Gallery SET name = '" + textName + "' WHERE gallery_id = " + currentId + ";";
+
+        var query2 = "UPDATE "
+        if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum") {
+            query2 += "Museum " +
+                        "SET address = '" + textAddress + "', " +
+                        "city = '" + textCity + "', " +
+                        "state_province = '" + textStateProvince + "', " +
+                        "postal_code = '" + textPostalCode + "', " +
+                        "country = '" + textCountry + "' " +
+                        "WHERE gallery_id = " + currentId + ";";
+        } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
+            query2 += "Art_Gallery " +
+                        "SET address = '" + textAddress + "', " +
+                        "city = '" + textCity + "', " +
+                        "state_province = '" + textStateProvince + "', " +
+                        "postal_code = '" + textPostalCode + "', " +
+                        "country = '" + textCountry + "' " +
+                        "WHERE gallery_id = " + currentId + ";"; 
+        } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Virtual Art Gallery") {
+            query2 += "Virtual_Art_Gallery " +
+                        "SET url = '" + textUrl + "' " +
+                        "WHERE gallery_id = " + currentId + ";";
+        }
+
+        const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
+                            {query: query2, func: undefined, arg1: undefined, arg2: undefined}];
+        
+        multiPostToServer("", queryArray, alertDatabaseError);
+    }
+    
+}
+
+function updateSuccess() {
+
 }
 
 function onClickCancel(event) {
@@ -160,6 +249,7 @@ function setupButtons(editButtons, updateButtons, cancelButtons, deleteButtons, 
         
         document.getElementById(deleteButtons[i].button_id).addEventListener("click", onClickDelete); 
         document.getElementById(deleteButtons[i].button_id).galleryId = deleteButtons[i].id;
+  
     }
 
 }
@@ -193,23 +283,23 @@ function loadTable(response, args) {
     for (var i = 0; i < data.length; i++) {
         var currentId = data[i].gallery_id;
         tableHTML += "<tr id='tr-gallery-" + currentId + "'>" +
-                     "<form class='form-horizontal' id='tr-edit-" + currentId + "' action=''>" +
+                     //"<form class='form-horizontal' id='tr-edit-" + currentId + "' action=''>" +
                      "<td id='td-gallery-type-" + currentId + "'>" + data[i].type + "</td>" +
                      "<td id='td-gallery-id-" + currentId + "'>" + data[i].gallery_id + "</td>" +
-                     "<td id='td-gallery-name-" + currentId + "'><div class='form-group' id='form-group-gallery-name-" + currentId + "'>" + data[i].name + "</div></td>";
-        if (args[0]) tableHTML += "<td id='td-gallery-address-" + currentId + "'><div class='form-group' id='form-group-gallery-address-" + currentId + "'>" + replaceUndefined(data[i].address) + "</div></td>";
-        if (args[1]) tableHTML += "<td id='td-gallery-city-" + currentId + "'><div class='form-group' id='form-group-gallery-city-" + currentId + "'>" + replaceUndefined(data[i].city) + "</div></td>";
-        if (args[2]) tableHTML += "<td id='td-gallery-state-province-" + currentId + "'><div class='form-group' id='form-group-gallery-state-province-" + currentId + "'>" + replaceUndefined(data[i].state_province) + "</div></td>";
-        if (args[3]) tableHTML += "<td id='td-gallery-postal-code-" + currentId + "'><div class='form-group' id='form-group-gallery-postal-code-" + currentId + "'>" + replaceUndefined(data[i].postal_code) + "</div></td>";
-        if (args[4]) tableHTML += "<td id='td-gallery-country-" + currentId + "'><div class='form-group' id='form-group-gallery-country-" + currentId + "'>" + replaceUndefined(data[i].country) + "</div></td>";
-        if (args[5]) tableHTML += "<td id='td-gallery-url-" + currentId + "'><div class='form-group' id='form-group-gallery-url-" + currentId + "'>" + replaceUndefined(data[i].url) + "</div></td>";
+                     "<td id='td-gallery-name-" + currentId + "'><div id='form-group-gallery-name-" + currentId + "'>" + data[i].name + "</div></td>";
+        if (args[0]) tableHTML += "<td id='td-gallery-address-" + currentId + "'><div id='form-group-gallery-address-" + currentId + "'>" + replaceUndefined(data[i].address) + "</div></td>";
+        if (args[1]) tableHTML += "<td id='td-gallery-city-" + currentId + "'><div id='form-group-gallery-city-" + currentId + "'>" + replaceUndefined(data[i].city) + "</div></td>";
+        if (args[2]) tableHTML += "<td id='td-gallery-state-province-" + currentId + "'><div id='form-group-gallery-state-province-" + currentId + "'>" + replaceUndefined(data[i].state_province) + "</div></td>";
+        if (args[3]) tableHTML += "<td id='td-gallery-postal-code-" + currentId + "'><div id='form-group-gallery-postal-code-" + currentId + "'>" + replaceUndefined(data[i].postal_code) + "</div></td>";
+        if (args[4]) tableHTML += "<td id='td-gallery-country-" + currentId + "'><div id='form-group-gallery-country-" + currentId + "'>" + replaceUndefined(data[i].country) + "</div></td>";
+        if (args[5]) tableHTML += "<td id='td-gallery-url-" + currentId + "'><div id='form-group-gallery-url-" + currentId + "'>" + replaceUndefined(data[i].url) + "</div></td>";
         tableHTML += "<td style='width: 150px' id='td-edit-delete-" + currentId + "'>" +
                      "<button class='btn btn-primary' id='button-edit-" + currentId + "' style='margin-right: 5px'>Edit</button>" +
-                     "<button class='btn btn-primary' id='button-update-" + currentId + "' style='display: none'>Update</button>" +
+                     "<div><button class='btn btn-primary' id='button-update-" + currentId + "' type='submit' style='display: none'>Update</button></div>" +
                      "<button class='btn btn-secondary' id='button-cancel-" + currentId + "' style='display: none'>Cancel</button>" +
                      "<button class='btn btn-danger' id='button-delete-" + currentId + "'>Delete</button>" +
                      "</td>" +
-                     "</form>" +
+                     //"</form>" +
                      "</tr>"; 
         editButtons.push({button_id: "button-edit-" + currentId, id: currentId});
         updateButtons.push({button_id: "button-update-" + currentId, id: currentId});
