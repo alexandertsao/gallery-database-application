@@ -182,7 +182,7 @@ function onClickUpdate(event) {
                         "state_province = '" + sanitize(textStateProvince) + "', " +
                         "postal_code = '" + sanitize(textPostalCode) + "', " +
                         "country = '" + sanitize(textCountry) + "' " +
-                        "WHERE gallery_id = " + sanitize(currentId) + ";";
+                        "WHERE gallery_id = " + currentId + ";";
         } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
             query2 += "Art_Gallery " +
                         "SET address = '" + sanitize(textAddress) + "', " +

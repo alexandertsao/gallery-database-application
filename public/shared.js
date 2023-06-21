@@ -76,7 +76,7 @@ function alertDatabaseError(response) {
 }
 
 /**
- * Adapted from https://stackoverflow.com/questions/7744912/making-a-javascript-string-sql-friendly/7760578#7760578
+ * Adapted from 
  * Escapes all SQL characters in a string.
  */
 function sanitize(str) {
