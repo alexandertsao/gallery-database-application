@@ -1,7 +1,12 @@
 import {postToServer, multiPostToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
 
+// Stores globally the type of gallery (museum, art-gallery, or virtual-art-gallery).
 var type = "museum";
 
+/**
+ * Shows and hides the proper fields when the gallery type is changed.
+ * @param {*} e 
+ */
 function radioTypeSelected(e) {
     console.log(e);
     if (this.checked) {
@@ -22,6 +27,10 @@ function radioTypeSelected(e) {
     }
 }
 
+/**
+ * Adds event listener to the gallery type radio buttons to call a function to change
+ * the visible fields accordingly.
+ */
 function setupRadioType() {
     const radioButtons = document.querySelectorAll('input[name="radio-type"]');
     for(const radioButton of radioButtons){
@@ -29,6 +38,20 @@ function setupRadioType() {
     }   
 }
 
+/**
+ * Alerts the user when a gallery is successfully registered.
+ * @param {*} galleryName 
+ */
+function registerSuccess(response, galleryName) {
+    alert(galleryName + " successfully registered!");
+}
+
+/**
+ * Adds a listener to the register form.
+ * Upon clicking "Register Gallery", the form validates and sanitizes all inputs
+ * and sends SQL queries to add the gallery to the Gallery and 
+ * Museum/Art_Gallery/Virtual_Art_Gallery tables.
+ */
 function setupForm() {
     var registerForm = document.getElementById("form-register-a-gallery");
     registerForm.addEventListener("submit", (e) => {
@@ -52,7 +75,6 @@ function setupForm() {
                 ((validator.isAlphanumeric(textCountry, undefined, {ignore:" -"}) && validator.isLength(textCountry, { min: 0, max: 255 })) || validator.isEmpty(textCountry))
                 ) {
                 validInput = true;
-                alert("Input is valid.");
             } else {
                 alert("Input is invalid.");
             }
@@ -62,7 +84,6 @@ function setupForm() {
                 ((validator.isURL(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
                 ) {
                 validInput = true;
-                alert("Input is valid.");
             } else {
                 alert("Input is invalid.");
             }
@@ -95,7 +116,7 @@ function setupForm() {
 
             const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
                                 {query: query2, func: undefined, arg1: undefined, arg2: undefined},
-                                {query: query3, func: undefined, arg1: undefined, arg2: undefined}];
+                                {query: query3, func: registerSuccess, arg1: textName, arg2: undefined}];
 
             multiPostToServer("", queryArray, alertDatabaseError);
         }
@@ -103,6 +124,9 @@ function setupForm() {
       });
 }
 
+/**
+ * Sets up page and calls function to setup form on load.
+ */
 $(function() {
     document.getElementById("div-physical-group").style.display = "block";
     document.getElementById("div-virtual-group").style.display = "none";
