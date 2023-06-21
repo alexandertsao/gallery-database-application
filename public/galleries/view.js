@@ -79,7 +79,6 @@ function setupForm() {
                          "'%" + sanitize(textQuery) + "%')";
             }
             query += ";";     
-            //alert(query);
             postToServer(toSQL(query), loadTable, undefined, args);
         }
 
@@ -136,13 +135,17 @@ function setupButtons(editButtons, updateButtons, cancelButtons, deleteButtons, 
     
     for (var i = 0; i < editButtons.length; i++) {
         var formGroupIds = [];
-        if (args[0]) formGroupIds.push("form-group-gallery-address-" + editButtons[i].id);
-        if (args[1]) formGroupIds.push("form-group-gallery-city-" + editButtons[i].id);
-        if (args[2]) formGroupIds.push("form-group-gallery-state-province-" + editButtons[i].id);
-        if (args[3]) formGroupIds.push("form-group-gallery-postal-code-" + editButtons[i].id);
-        if (args[4]) formGroupIds.push("form-group-gallery-country-" + editButtons[i].id);
-        if (args[5]) formGroupIds.push("form-group-gallery-url-" + editButtons[i].id);
-
+        formGroupIds.push("form-group-gallery-name-" + editButtons[i].id);
+        if (document.getElementById("tr-gallery-" + editButtons[i].id).galleryType == "Museum" || 
+            document.getElementById("tr-gallery-" + editButtons[i].id).galleryType == "Art Gallery") {
+            if (args[0]) formGroupIds.push("form-group-gallery-address-" + editButtons[i].id);
+            if (args[1]) formGroupIds.push("form-group-gallery-city-" + editButtons[i].id);
+            if (args[2]) formGroupIds.push("form-group-gallery-state-province-" + editButtons[i].id);
+            if (args[3]) formGroupIds.push("form-group-gallery-postal-code-" + editButtons[i].id);
+            if (args[4]) formGroupIds.push("form-group-gallery-country-" + editButtons[i].id);
+        } else if (document.getElementById("tr-gallery-" + editButtons[i].id).galleryType == "Virtual Art Gallery") {
+            if (args[5]) formGroupIds.push("form-group-gallery-url-" + editButtons[i].id);
+        }
         document.getElementById(editButtons[i].button_id).addEventListener("click", onClickEdit); 
         document.getElementById(editButtons[i].button_id).galleryId = editButtons[i].id;
         document.getElementById(editButtons[i].button_id).formGroupIds = formGroupIds;
@@ -193,7 +196,7 @@ function loadTable(response, args) {
                      "<form class='form-horizontal' id='tr-edit-" + currentId + "' action=''>" +
                      "<td id='td-gallery-type-" + currentId + "'>" + data[i].type + "</td>" +
                      "<td id='td-gallery-id-" + currentId + "'>" + data[i].gallery_id + "</td>" +
-                     "<td id='td-gallery-name-" + currentId + "'>" + data[i].name + "</td>";
+                     "<td id='td-gallery-name-" + currentId + "'><div class='form-group' id='form-group-gallery-name-" + currentId + "'>" + data[i].name + "</div></td>";
         if (args[0]) tableHTML += "<td id='td-gallery-address-" + currentId + "'><div class='form-group' id='form-group-gallery-address-" + currentId + "'>" + replaceUndefined(data[i].address) + "</div></td>";
         if (args[1]) tableHTML += "<td id='td-gallery-city-" + currentId + "'><div class='form-group' id='form-group-gallery-city-" + currentId + "'>" + replaceUndefined(data[i].city) + "</div></td>";
         if (args[2]) tableHTML += "<td id='td-gallery-state-province-" + currentId + "'><div class='form-group' id='form-group-gallery-state-province-" + currentId + "'>" + replaceUndefined(data[i].state_province) + "</div></td>";
@@ -215,6 +218,11 @@ function loadTable(response, args) {
     }
 
     document.getElementById("tbody-galleries").innerHTML = tableHTML;
+
+    for (var i = 0; i < data.length; i++) {
+        var currentId = data[i].gallery_id;
+        document.getElementById("tr-gallery-" + currentId).galleryType = data[i].type;
+    }
 
     setupButtons(editButtons, updateButtons, cancelButtons, deleteButtons, args);
 }
