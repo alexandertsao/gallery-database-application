@@ -56,38 +56,64 @@
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
             <h3>View Exhibits</h3><hr>
             <form class="form-horizontal" id="form-view-exhibits" action="">
-              <div class="form-group">
-                <label class="control-label col-sm-2" for="email">Query:</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="text-query" placeholder="Enter a gallery name or ID #" name="text-query">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Search:</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="form-control" id="text-query" placeholder="Enter an exhibit name or ID #" name="text-query">
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">  
-                <label class="control-label col-sm-2">Filter by:</label>      
-                <div class="col-sm-10">
-                  <div class="checkbox">
-                    <label class="col-sm-3"><input type="checkbox" id="checkbox-filter-museum" name="checkbox-filter" checked>Museum</label>
-                    <label class="col-sm-3"><input type="checkbox" id="checkbox-filter-art-gallery" name="checkbox-filter" checked>Art Gallery</label>
-                    <label class="col-sm-6"><input type="checkbox" id="checkbox-filter-virtual-art-gallery" name="checkbox-filter" checked>Virtual Art Gallery</label>
-                  </div>
+                <br>
+
+                <div class="form-group">  
+                    <label class="control-label col-sm-2">Filter by:</label>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:400;">Gallery(s):</label>   
+                        <form id="form2">
+                            <select width=300 style="width: 350px" size="4" multiple>
+                                <option href="#">Gallery 1</option>
+                                <option href="#">Gallery 2</option>
+                                <option href="#">Gallery 3</option>
+                                <option href="#">Gallery 4</option>
+                                <option href="#">Gallery 5</option>
+                            </select>
+                        </form>
+                        <p class="col-sm-0" style="text-align:center">*Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+                    </div>   
+                </div>   
+
+                <div class="form-group" style="text-indent: 40%">
+                    <label class="control-label col-sm-2" style="font-weight:400;" for="date-start">Start Date:</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="date-start" name="date-start">
+                    </div>
                 </div>
-              </div>
-              <div class="form-group">  
+                <br>
+                <br>
+                <br>
+                <div class="form-group" style="text-indent: 44%">
+                    <label class="control-label col-sm-2" style="font-weight:400;" for="date-end">End Date:</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="date-start" name="date-start">
+                    </div>
+                </div>
+                <br>
+                <br>
+
+              <div class="form-group" style="text-indent: 50%">  
                 <label class="control-label col-sm-2">Display:</label>      
-                <div class="col-sm-10">
+                <div class="col-sm-13">
                   <div class="checkbox">
-                    <!-- <label class="col-sm-2"><input type="checkbox" id="checkbox-display-type" name="checkbox-display" checked>Type</label>
+                    <!--
                     <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-name" name="checkbox-display" checked>Name</label> -->
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-address" name="checkbox-display" checked>Address</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-city" name="checkbox-display" checked>City</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-state-province" name="checkbox-display" checked>State/Province</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-postal-code" name="checkbox-display" checked>Postal Code</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-country" name="checkbox-display" checked>Country</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-url" name="checkbox-display" checked>URL</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-gallery" name="checkbox-display" checked>Gallery</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-state-startdate" name="checkbox-display" checked>Start Date</label>
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-postal-enddate" name="checkbox-display" checked>End Date</label>
                   </div>
                 </div>
               </div>
+              <br>
+              <br>
               <div class="form-group">        
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-default">Search Exhibits</button>
@@ -97,15 +123,12 @@
             <table class="table table-hover" id="table-exhibits">
               <thead>
                 <tr id="tr-exhibits-colnames">
-                  <!-- <th>Type</th>
+                  <!-- 
                   <th>ID #</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>City</th>
-                  <th>State/Province</th>
-                  <th>Postal Code</th>
-                  <th>Country</th>
-                  <th>URL</th> -->
+                  <th>Title</th>
+                  <th>Gallery</th>
+                  <th>Start Date</th>
+                  <th>End Date</th> -->
                 </tr>
               </thead>
               <tbody id="tbody-exhibits">
