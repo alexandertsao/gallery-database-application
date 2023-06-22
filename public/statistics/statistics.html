@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gallery Database - Statistics</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
+    
+    <!-- Validator -->
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    
+    <script type="module" src="view.js"></script> 
+  </head>
+  <body>
+    <!-- Nav bar (adapted from https://www.w3schools.com/bootstrap/bootstrap_templates.asp)-->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="#">Gallery Database</a>
+          </div>
+          <div class="collapse navbar-collapse" id="topNavbar">
+            <ul class="nav navbar-nav">
+              <li><a href="../front.html">Home</a></li>
+              <li><a href="../galleries/view.html">Galleries</a></li>
+              <li><a href="../exhibits/view.html">Exhibits</a></li>
+              <li><a href="../art/view.html">Art</a></li>
+              <li><a href="../visitors/register.html">Visitors</a></li>
+              <li class="active"><a href="../statistics/statistics.html">Statistics</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+        
+      <div class="container-fluid text-center">    
+        <div class="row content">
+          </div>
+          <div class="col-sm-10 text-left"> 
+            <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
+            <h3>Statistics</h3><hr>
+            <form class="form-horizontal" id="form-statistics" action="">
+              <div class="form-group">       
+                <div class="col-sm-3">
+                    <!-- Agg Group By Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Number of Artworks per Gallery</a></button>
+                </div>
+                <div class="col-sm-3">
+                    <!-- Agg Having Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Exhibit Popularity</a></button>
+                </div>
+                <div class="col-sm-3">
+                    <!-- Nested Agg Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Artists with Most Artworks</a></button>
+                </div>
+                <div class="col-sm-3">
+                    <!-- Division Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Find Loyal Customers</a></button>
+                </div>
+              </div>
+            </form> 
+
+          </div>
+          <div class="col-sm-2 sidenav">
+            <div class="well">
+              <p><b>Curator:</b></p>
+              Alexander Tsao
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Number of Artworks per Gallery -->
+      <!-- Result should be a table grouped by gallery, displaying galleryID, gallery name, and the number of artworks -->
+      <h4 style="text-indent: 5%;">Find the number of artworks in a gallery:</h4> 
+      <br>
+      <div class="form-group">  
+        <div class="form-group" style="text-align: center;">
+            <label class="control-label col-sm-10" style="font-weight:400;"> Select Gallery(s):</label>   
+            <form id="form2">
+                <select width=300 style="width: 350px" size="4" multiple>
+                    <option href="#">Gallery 1</option>
+                    <option href="#">Gallery 2</option>
+                    <option href="#">Gallery 3</option>
+                    <option href="#">Gallery 4</option>
+                    <option href="#">Gallery 5</option>
+                </select>
+            </form>
+            <br>
+            <p class="col-sm-0" style="text-align:center">*Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+        </div>   
+      </div>  
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+
+      <!-- Exhibit Popularity -->
+      <!-- Result should be a table grouped by exhibit, displaying exhibitID, exhibit title, and the number of customers -->
+      <h4 style="text-indent: 5%;">Find the number of customers in exhibits that have had a minimum number of customers:</h4>
+      <br> 
+      <div class="form-group">
+        <label class="control-label col-sm-12" style="font-weight:400; text-align: center;" for="text-name">Select minimum number of customers:</label>
+        <p class="col-sm-4"></p>
+        <div class="col-sm-4">
+            <input type="number" step="1" class="form-control" id="text-name" placeholder="Enter numberic value" name="text-name">
+        </div>
+        <p class="col-sm-4"></p>
+      </div> 
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br><br><br><br><br><br>
+
+      <!-- Artists with Most Artworks -->
+      <!-- Result should be a table displaying artistIDs, artist names, and numbers of artworks -->
+      <h4 style="text-indent: 5%;">Find the number of artworks made by artists who have made more</h4>
+      <h4 style="text-indent: 5%;">artworks than the average number of artworks made by all artists in a gallery:</h4>
+      <br> 
+      <div class="form-group" style="text-align: center;">
+        <label class="control-label col-sm-12" style="font-weight:400;" for="text-gallery">Select Gallery:</label>
+        <form id="form-group">
+            <div class="col-sm-12">
+            <select width=300 style="width: 350px">
+                <option href="#">Gallery 1</option>
+                <option href="#">Gallery 2</option>
+                <option href="#">Gallery 3</option>
+                <option href="#">Gallery 4</option>
+                <option href="#">Gallery 5</option>
+                <option href="#" selected>Select a Gallery</option>
+            </select>
+            </div>
+        </form>
+      </div>
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br><br><br><br><br>
+
+      <!-- Find Loyal Customers -->
+      <!-- Result should be a table displaying customerID and customer name -->
+      <h4 style="text-indent: 5%;">Find customers who have visited every exhibit at a gallery:</h4>
+      <br> 
+      <div class="form-group" style="text-align: center;">
+        <label class="control-label col-sm-12" style="font-weight:400;" for="text-gallery">Select Gallery:</label>
+        <form id="form-group">
+            <div class="col-sm-12">
+            <select width=300 style="width: 350px">
+                <option href="#">Gallery 1</option>
+                <option href="#">Gallery 2</option>
+                <option href="#">Gallery 3</option>
+                <option href="#">Gallery 4</option>
+                <option href="#">Gallery 5</option>
+                <option href="#" selected>Select a Gallery</option>
+            </select>
+            </div>
+        </form>
+      </div>
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      
+      <footer class="container-fluid text-center">
+        <!-- <p>Footer Text</p> -->
+      </footer>    
+  
+  </body>
+</html>

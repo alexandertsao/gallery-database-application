@@ -52,8 +52,12 @@ CREATE TABLE Art (
     year_created 	INT,
     description 	VARCHAR(4000),
 	exhibit_id 		INT,
+	artist_id       INT NOT NULL,
 	PRIMARY KEY (art_id),
 	FOREIGN KEY (owner_id) REFERENCES Owner (owner_id)
+		ON UPDATE CASCADE 
+		ON DELETE CASCADE,
+	FOREIGN KEY (artist_id) REFERENCES Artist (artist_id)
 		ON UPDATE CASCADE 
 		ON DELETE CASCADE,
 	FOREIGN KEY (exhibit_id) REFERENCES Exhibit (exhibit_id)
