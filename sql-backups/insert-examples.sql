@@ -333,19 +333,19 @@ VALUES(11, 5, '1852-02-23', 2);
 INSERT INTO Transfers (art_id, origin, date, destination)
 VALUES(12, 5, '2024-01-27', 3);
 
-INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
 VALUES(1, '2022-04-02', 1);
 
-INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
 VALUES(2, '2022-11-30', 2);
 
-INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
 VALUES(3, '2022-07-21', 3);
 
-INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
 VALUES(4,  '2022-03-15', 4);
 
-INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
 VALUES(5, '2022-08-03', 5);
 
 INSERT INTO ExhibitCharges (exhibit_id, price, price_group)
@@ -393,17 +393,17 @@ VALUES(5, 40, 'Student');
 INSERT INTO ExhibitCharges (exhibit_id, price, price_group)
 VALUES(5, 25, 'Senior');
 
-INSERT INTO Visits (customer_id, exhibit_id, time, price)
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (1, 1, '2022-04-02', 50);
 
-INSERT INTO Visits (customer_id, exhibit_id, time, price)
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (2, 2, '2022-11-30', 50);
 
-INSERT INTO Visits (customer_id, exhibit_id, time, price)
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (3, 3, '2022-07-21', 40);
 
-INSERT INTO Visits (customer_id, exhibit_id, time, price)
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (4, 4, '2022-03-15', 25);
 
-INSERT INTO Visits (customer_id, exhibit_id, time, price)
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (5, 5, '2022-08-03', 50);
