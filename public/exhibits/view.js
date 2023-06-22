@@ -13,7 +13,6 @@ import {postToServer,
 function setupSelectGalleryMultiple() {
     var query = "SELECT * FROM Gallery;"
     postToServer(toSQL(query), (response) => {
-        document.getElementById("select-gallery-multiple").innerHTML = "<option selected>Select a Gallery</option>";
         var galleries = JSON.parse(response);
         var optionHTML = "";
         for (var i = 0; i < galleries.length; i++) {

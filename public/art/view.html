@@ -50,122 +50,77 @@
         <div class="row content">
           <div class="col-sm-2 sidenav">
             <p><a href="view.html">View Artworks</a></p>
-            <p><a href="register.html">Register an Artwork</a></p>
-            <p><a href="registerartist.html">Register an Artist</a></p>
+            <p><a href="register-art.html">Register an Artwork</a></p>
+            <p><a href="register-artist.html">Register an Artist</a></p>
           </div>
           <div class="col-sm-8 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
             <h3>View Artworks</h3>
             <h5 style="font-weight:400;">See registered artworks along with information about their artists and current exhibits.</h5><hr>
-            <form class="form-horizontal" id="form-view-art" action="">
+            <form class="form-horizontal" id="form-view-artworks" action="">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Search:</label>
+                    <label class="control-label col-sm-2" for="text-search">Search:</label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" id="text-query" placeholder="Enter an artwork name or ID #" name="text-query">
+                    <input type="text" class="form-control" id="text-search" placeholder="Enter an artwork title or ID #" name="text-search">
                     </div>
                 </div>
-                <br>
-
                 <div class="form-group">  
                     <label class="control-label col-sm-2">Filter by:</label>
-                    <div class="form-group">
-                      <label class="control-label col-sm-2" style="font-weight:400;" for="text-name">Year Created:</label>
-                      <div class="col-sm-8" style="width: 300px;">
-                          <input type="number" min="0" max="2023" step="1" class="form-control" id="text-name" placeholder="e.g., 2023" name="text-name">
-                      </div>
+                    <label class="control-label col-sm-2" style="font-weight:400;">Year Created: </label> 
+                    <div class="col-sm-8">
+                      <input type="number" class="form-control" id="text-year-created" placeholder="e.g., 2023" name="text-year-created">
                     </div>
                 </div>
-
-                <!-- Needed for formatting -->
-                <div class="form-group">   
-                  <form class="form2; col-sm-12">
-                  </form>
+                <div class="form-group">  
+                  <label class="control-label col-sm-2"></label>
+                  <label class="control-label col-sm-2" style="font-weight:400;">Artist(s): </label>   
+                    <div class="col-sm-8"><select class="form-control" id="select-artist-multiple" size="4" multiple>
+                    </select></div>
                 </div> 
-
-                <div class="form-group"> 
-                  <label class="control-label col-sm-4" style="font-weight:400; text-align: right;">Artist(s):</label>   
-                  <form class="form2; col-sm-8;">
-                      <select width=300 style="width: 350px" size="4" multiple>
-                          <option href="#">Artist 1</option>
-                          <option href="#">Artist 2</option>
-                          <option href="#">Artist 3</option>
-                          <option href="#">Artist 4</option>
-                          <option href="#">Artist 5</option>
-                          <option href="#">Artist 6</option>
-                          <option href="#">Artist 7</option>
-                      </select>
-                  </form>
+                <div class="form-group">  
+                  <label class="control-label col-sm-2"></label>
+                  <label class="control-label col-sm-2" style="font-weight:400;">Owner(s): </label>   
+                    <div class="col-sm-8"><select class="form-control" id="select-owner-multiple" size="4" multiple>
+                    </select></div>
                 </div> 
-
-                <div class="form-group">
-                  <label class="control-label col-sm-4" style="font-weight:400; text-align: right;">Owner(s):</label>   
-                  <form class="form2; col-sm-8;">
-                      <select width=300 style="width: 350px" size="4" multiple>
-                          <option href="#">Owner 1</option>
-                          <option href="#">Owner 2</option>
-                          <option href="#">Owner 3</option>
-                          <option href="#">Owner 4</option>
-                          <option href="#">Owner 5</option>
-                      </select>
-                  </form>
+                <div class="form-group">  
+                  <label class="control-label col-sm-2"></label>
+                  <label class="control-label col-sm-2" style="font-weight:400;">Exhibit(s): </label>   
+                    <div class="col-sm-8"><select class="form-control" id="select-exhibit-multiple" size="4" multiple>
+                    </select><p align="right"><i>Use Ctrl/Cmd to select multiple options.</i></p></div>
                 </div>   
-
-                <div class="form-group">
-                    <label class="control-label col-sm-4" style="font-weight:400; text-align: right;">Exhibit(s):</label>   
-                    <form class="form2; col-sm-8;">
-                        <select width=300 style="width: 350px" size="4" multiple>
-                            <option href="#">Exhibit 1</option>
-                            <option href="#">Exhibit 2</option>
-                            <option href="#">Exhibit 3</option>
-                            <option href="#">Exhibit 4</option>
-                            <option href="#">Exhibit 5</option>
-                        </select>
-                    </form>
-                </div>   
-                
-                <p class="col-sm-0" style="text-align:center">*Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-
-                <br>
-
               <div class="form-group" style="text-indent: 50%">  
-                <label class="control-label col-sm-2">Display:</label>      
-                <div class="col-sm-10">
-                  <div class="checkbox">
-                    <label class="col-sm-1">Artwork:</label> 
-                    <!--
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> 
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-year" name="checkbox-display" checked>Year</label>
-                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-description" name="checkbox-display" checked>Description</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-owner" name="checkbox-display" checked>Owner</label>
-                    <label class="col-sm-2"></label> 
-                    <br>
-                    
-                  </div>
-
-                  <div class="checkbox">
-                    <label class="col-sm-1">Artist:</label> 
-                    <!--
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-name" name="checkbox-display" checked>Name</label> 
-                    <label class="col-sm-4"><input type="checkbox" id="checkbox-display-birthyear" name="checkbox-display" checked>Birth Year</label>
-                    <label class="col-sm-4"><input type="checkbox" id="checkbox-display-deathyear" name="checkbox-display" checked>Death Year</label>
-                    <label class="col-sm-1"></label> 
-                    <br>
-                    
-                  </div>
-
-                  <div class="checkbox">
-                    <label class="col-sm-1">Exhibit:</label> 
-                    <!--
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> 
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-gallery" name="checkbox-display" checked>Gallery</label> 
-                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-startdate" name="checkbox-display" checked>Start Date</label> 
-                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-enddate" name="checkbox-display" checked>End Date</label>
-                    <br> 
-                    <br>
-                  </div>
+                <label class="control-label col-sm-2">Display:</label>    
+                <div class="checkbox">
+                  <label class="col-sm-2">Artwork:</label> 
+                  <!--
+                  <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                  <label class="col-sm-1"><input type="checkbox" id="checkbox-display-artwork-title" name="checkbox-display" checked>Title</label> 
+                  <label class="col-sm-1"><input type="checkbox" id="checkbox-display-artwork-year" name="checkbox-display" checked>Year</label>
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-artwork-description" name="checkbox-display" checked>Description</label>
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-artwork-owner" name="checkbox-display" checked>Owner</label>
+                  <br>
+                </div> 
+                <div class="checkbox">
+                  <label class="control-label col-sm-2"></label>  
+                  <label class="col-sm-2">Artist:</label> 
+                  <!--
+                  <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                  <label class="col-sm-1"><input type="checkbox" id="checkbox-display-artist-name" name="checkbox-display" checked>Name</label> 
+                  <label class="col-sm-1"></label>
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-artist-birth-year" name="checkbox-display" checked>Birth Year</label>
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-artist-death-year" name="checkbox-display" checked>Death Year</label>
+                  <br>               
+                </div>
+                <div class="checkbox">
+                  <label class="control-label col-sm-2"></label>  
+                  <label class="col-sm-2">Exhibit:</label> 
+                  <!--
+                  <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                  <label class="col-sm-1"><input type="checkbox" id="checkbox-display-exhibit-title" name="checkbox-display" checked>Title</label> 
+                  <label class="col-sm-1"><input type="checkbox" id="checkbox-display-exhibit-gallery" name="checkbox-display" checked>Gallery</label> 
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-exhibit-start-date" name="checkbox-display" checked>Start Date</label> 
+                  <label class="col-sm-3"><input type="checkbox" id="checkbox-display-exhibit-end-date" name="checkbox-display" checked>End Date</label>
                 </div>
               </div>
               <br>
@@ -176,9 +131,9 @@
                 </div>
               </div>
             </form>        
-            <table class="table table-hover" id="table-art">
+            <table class="table table-hover" id="table-artworks">
               <thead>
-                <tr id="tr-art-colnames">
+                <tr id="tr-artworks-colnames">
                   <!-- 
                   <th>ID #</th>
                   <th>Title</th>
@@ -189,7 +144,7 @@
                   <th>Exhibit</th> -->
                 </tr>
               </thead>
-              <tbody id="tbody-art">
+              <tbody id="tbody-artworks">
                 
               </tbody>
             </table>
