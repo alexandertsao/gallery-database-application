@@ -35,7 +35,6 @@
               <li><a href="../front.html">Home</a></li>
               <li><a href="../galleries/view.html">Galleries</a></li>
               <li><a href="../exhibits/view.html">Exhibits</a></li>
-              <li><a href="#">Artists</a></li>
               <li class="active"><a href="../art/view.html">Art</a></li>
               <li><a href="#">Visitors</a></li>
               <li><a href="../statistics/statistics.html">Statistics</a></li>
@@ -52,10 +51,12 @@
           <div class="col-sm-2 sidenav">
             <p><a href="view.html">View Artworks</a></p>
             <p><a href="register.html">Register an Artwork</a></p>
+            <p><a href="registerartist.html">Register an Artist</a></p>
           </div>
           <div class="col-sm-8 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
-            <h3>View Artworks</h3><hr>
+            <h3>View Artworks</h3>
+            <h5 style="font-weight:400;">See registered artworks along with information about their artists and current exhibits.</h5><hr>
             <form class="form-horizontal" id="form-view-art" action="">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="email">Search:</label>
@@ -128,16 +129,42 @@
 
               <div class="form-group" style="text-indent: 50%">  
                 <label class="control-label col-sm-2">Display:</label>      
-                <div class="col-sm-13">
+                <div class="col-sm-10">
                   <div class="checkbox">
+                    <label class="col-sm-1">Artwork:</label> 
                     <!--
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> 
                     <label class="col-sm-2"><input type="checkbox" id="checkbox-display-year" name="checkbox-display" checked>Year</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-description" name="checkbox-display" checked>Description</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-artist" name="checkbox-display" checked>Artist</label>
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-description" name="checkbox-display" checked>Description</label>
                     <label class="col-sm-2"><input type="checkbox" id="checkbox-display-owner" name="checkbox-display" checked>Owner</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-exhibit" name="checkbox-display" checked>Exhibit</label>
+                    <label class="col-sm-2"></label> 
+                    <br>
+                    
+                  </div>
+
+                  <div class="checkbox">
+                    <label class="col-sm-1">Artist:</label> 
+                    <!--
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-name" name="checkbox-display" checked>Name</label> 
+                    <label class="col-sm-4"><input type="checkbox" id="checkbox-display-birthyear" name="checkbox-display" checked>Birth Year</label>
+                    <label class="col-sm-4"><input type="checkbox" id="checkbox-display-deathyear" name="checkbox-display" checked>Death Year</label>
+                    <label class="col-sm-1"></label> 
+                    <br>
+                    
+                  </div>
+
+                  <div class="checkbox">
+                    <label class="col-sm-1">Exhibit:</label> 
+                    <!--
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>     -->
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> 
+                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-gallery" name="checkbox-display" checked>Gallery</label> 
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-startdate" name="checkbox-display" checked>Start Date</label> 
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-enddate" name="checkbox-display" checked>End Date</label>
+                    <br> 
+                    <br>
                   </div>
                 </div>
               </div>
