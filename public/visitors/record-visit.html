@@ -16,7 +16,7 @@
     <!-- Validator -->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
 
-    <script type="module" src="register.js"></script> 
+    <script type="module" src="record-visit.js"></script> 
   </head>
   <body>
     <!-- Nav bar (adapted from https://www.w3schools.com/bootstrap/bootstrap_templates.asp)-->
@@ -50,68 +50,61 @@
         <div class="row content">
           <div class="col-sm-2 sidenav">
             <p><a href="register.html">Register a Customer</a></p>
-            <p><a href="recordvisit.html">Record a Visit</a></p>
+            <p><a href="record-visit.html">Record a Visit</a></p>
           </div>
           <div class="col-sm-8 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
             <h3>Record a Visit</h3><hr>
             <form class="form-horizontal" id="form-record-a-visit" action="">
 
+
             <div class="form-group">
-                <form id="form-group">
-                </form>
+              <label class="control-label col-sm-2" for="text-email">Customer Email (required):</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="text-email" placeholder="e.g., johndoe@gmail.com" name="text-email" required>
+              </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="text-visitor" style="text-align: right;">Customer:</label>
-                <form class="form-group; col-sm-10; container;">
-                    <select width=300 style="width: 350px" required>
-                        <option href="#">Customer 1</option>
-                        <option href="#">Customer 2</option>
-                        <option href="#">Customer 3</option>
-                        <option href="#">Customer 4</option>
-                        <option href="#">Customer 5</option>
-                        <option href="#" selected>Select a Customer</option>
-                    </select>
-                </form>
+              <label class="control-label col-sm-2" for="text-name" style="color: grey">Customer Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="text-name" name="text-name" readonly>
+              </div>
+              <label class="control-label col-sm-2"></label>
+              <div class="col-sm-10">
+                <label id="customer-not-found"></label>
+              </div>
             </div>
+            
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="text-visitor" style="text-align: right;">Exhibit:</label>
-                <form class="form-group; col-sm-10; container;">
-                    <select width=300 style="width: 350px" required>
-                        <option href="#">Exhibit 1</option>
-                        <option href="#">Exhibit 2</option>
-                        <option href="#">Exhibit 3</option>
-                        <option href="#">Exhibit 4</option>
-                        <option href="#">Exhibit 5</option>
-                        <option href="#" selected>Select an Exhibit</option>
-                    </select>
-                </form>
+              <label class="control-label col-sm-2" for="select-exhibit">Exhibit (required):</label>
+              <div class="col-sm-10"><select class="form-control" id="select-exhibit">
+                  <option selected>Select an Exhibit</option>
+              </select></div>
             </div>
 
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="date-start" style="text-align: right;">Time of Visit:</label>
+                <label class="control-label col-sm-2" for="date-of-visit">Date of Visit (required):</label>
                 <div class="col-sm-10">
-                    <input type="datetime-local" class="form-control" id="visit-time" name="visit-time">
+                    <input type="date" class="form-control" id="date-of-visit" name="date-of-visit" required>
                 </div>
             </div>
-            <br><br>
-
+            <br>
+            <br>
             <div class="form-group">
-                <label class="control-label col-sm-2" for="text-name" style="text-align: right;">Price:</label>
+                <label class="control-label col-sm-2" for="text-price">Price: $</label>
                 <div class="col-sm-10">
-                    <input type="number" step="1" class="form-control" id="text-name" placeholder="$0.00" name="text-price">
+                    <input type="number" step="1" class="form-control" id="text-price" placeholder="0.00" name="text-price">
                 </div>
             </div> 
             <br><br>
-
-              <div class="form-group">        
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default" id="button-register-customer" name="button-register-customer">Record Visit</button>
-                </div>
+            <div class="form-group">        
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" id="button-record-visit" name="button-record-visit" disabled="true">Record Visit</button>
               </div>
+            </div>
             </form>        
           </div>
           <div class="col-sm-2 sidenav">
