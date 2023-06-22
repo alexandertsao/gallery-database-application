@@ -48,36 +48,31 @@
         
       <div class="container-fluid text-center">    
         <div class="row content">
-          <div class="col-sm-2 sidenav">
           </div>
-          <div class="col-sm-8 text-left"> 
+          <div class="col-sm-10 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
             <h3>Statistics</h3><hr>
             <form class="form-horizontal" id="form-statistics" action="">
               <div class="form-group">       
-                <div class="col-sm-offset-2 col-sm-12">
-                    <button type="submit" class="btn btn-default"><a href="agg-groupby.html">Agg Group By Query</a></button>
+                <div class="col-sm-3">
+                    <!-- Agg Group By Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Number of Artworks per Gallery</a></button>
                 </div>
-                <br>
-                <br>
-                <br>
-                <div class="col-sm-offset-2 col-sm-12">
-                    <button type="submit" class="btn btn-default"><a href="agg-having.html">Agg Having Query</a></button>
+                <div class="col-sm-3">
+                    <!-- Agg Having Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Exhibit Popularity</a></button>
                 </div>
-                <br>
-                <br>
-                <br>
-                <div class="col-sm-offset-2 col-sm-12">
-                    <button type="submit" class="btn btn-default"><a href="nested-agg.html">Nested Agg Query</a></button>
+                <div class="col-sm-3">
+                    <!-- Nested Agg Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Artists with Most Artworks</a></button>
                 </div>
-                <br>
-                <br>
-                <br>
-                <div class="col-sm-offset-2 col-sm-12">
-                    <button type="submit" class="btn btn-default"><a href="division.html">Division Query</a></button>
+                <div class="col-sm-3">
+                    <!-- Division Query -->
+                    <button type="submit" class="btn btn-default"><a href="#">Find Loyal Customers</a></button>
                 </div>
               </div>
-            </form>        
+            </form> 
+
           </div>
           <div class="col-sm-2 sidenav">
             <div class="well">
@@ -85,6 +80,109 @@
               Alexander Tsao
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Number of Artworks per Gallery -->
+      <!-- Result should be a table grouped by gallery, displaying galleryID, gallery name, and the number of artworks -->
+      <h4 style="text-indent: 5%;">Find the number of artworks in a gallery:</h4> 
+      <br>
+      <div class="form-group">  
+        <div class="form-group" style="text-align: center;">
+            <label class="control-label col-sm-10" style="font-weight:400;"> Select Gallery(s):</label>   
+            <form id="form2">
+                <select width=300 style="width: 350px" size="4" multiple>
+                    <option href="#">Gallery 1</option>
+                    <option href="#">Gallery 2</option>
+                    <option href="#">Gallery 3</option>
+                    <option href="#">Gallery 4</option>
+                    <option href="#">Gallery 5</option>
+                </select>
+            </form>
+            <br>
+            <p class="col-sm-0" style="text-align:center">*Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
+        </div>   
+      </div>  
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+
+      <!-- Exhibit Popularity -->
+      <!-- Result should be a table grouped by exhibit, displaying exhibitID, exhibit title, and the number of customers -->
+      <h4 style="text-indent: 5%;">Find the number of customers in exhibits that have had a minimum number of customers:</h4>
+      <br> 
+      <div class="form-group">
+        <label class="control-label col-sm-12" style="font-weight:400; text-align: center;" for="text-name">Select minimum number of customers:</label>
+        <p class="col-sm-4"></p>
+        <div class="col-sm-4">
+            <input type="number" step="1" class="form-control" id="text-name" placeholder="Enter numberic value" name="text-name">
+        </div>
+        <p class="col-sm-4"></p>
+      </div> 
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br><br><br><br><br><br>
+
+      <!-- Artists with Most Artworks -->
+      <!-- Result should be a table displaying artistIDs, artist names, and numbers of artworks -->
+      <h4 style="text-indent: 5%;">Find the number of artworks made by artists who have made more</h4>
+      <h4 style="text-indent: 5%;">artworks than the average number of artworks made by all artists in a gallery:</h4>
+      <br> 
+      <div class="form-group" style="text-align: center;">
+        <label class="control-label col-sm-12" style="font-weight:400;" for="text-gallery">Select Gallery:</label>
+        <form id="form-group">
+            <div class="col-sm-12">
+            <select width=300 style="width: 350px">
+                <option href="#">Gallery 1</option>
+                <option href="#">Gallery 2</option>
+                <option href="#">Gallery 3</option>
+                <option href="#">Gallery 4</option>
+                <option href="#">Gallery 5</option>
+                <option href="#" selected>Select a Gallery</option>
+            </select>
+            </div>
+        </form>
+      </div>
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
+        </div>
+      </div>
+      <br><br><br><br><br>
+
+      <!-- Find Loyal Customers -->
+      <!-- Result should be a table displaying customerID and customer name -->
+      <h4 style="text-indent: 5%;">Find customers who have visited every exhibit at a gallery:</h4>
+      <br> 
+      <div class="form-group" style="text-align: center;">
+        <label class="control-label col-sm-12" style="font-weight:400;" for="text-gallery">Select Gallery:</label>
+        <form id="form-group">
+            <div class="col-sm-12">
+            <select width=300 style="width: 350px">
+                <option href="#">Gallery 1</option>
+                <option href="#">Gallery 2</option>
+                <option href="#">Gallery 3</option>
+                <option href="#">Gallery 4</option>
+                <option href="#">Gallery 5</option>
+                <option href="#" selected>Select a Gallery</option>
+            </select>
+            </div>
+        </form>
+      </div>
+      <p class="col-sm-12"></p>
+      <div class="form-group">        
+        <div class="col-sm-12" style="text-align: center;">
+          <button type="submit" class="btn btn-default">Find</button>
         </div>
       </div>
       
