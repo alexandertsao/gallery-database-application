@@ -191,9 +191,9 @@ CREATE TABLE Transfers (
 
 CREATE TABLE CustomerVisitsExhibit (
 	customer_id	INT,
-	time		TIMESTAMP,
+	date		DATE,
 	exhibit_id	INT,
-	PRIMARY KEY (customer_id, time),
+	PRIMARY KEY (customer_id, date),
 	FOREIGN KEY(customer_id) REFERENCES Customer(customer_id)
 		ON UPDATE CASCADE 
 		ON DELETE CASCADE,
@@ -215,10 +215,10 @@ CREATE TABLE ExhibitCharges (
 CREATE TABLE Visits (
 	customer_id	INT,
 	exhibit_id	INT,
-	time		timestamp NOT NULL,
+	date		DATE NOT NULL,
 	price		INT,
 	PRIMARY KEY (customer_id, exhibit_id),
-	FOREIGN KEY (customer_id, time) REFERENCES CustomerVisitsExhibit (customer_id, time)
+	FOREIGN KEY (customer_id, date) REFERENCES CustomerVisitsExhibit (customer_id, date)
 		ON UPDATE CASCADE 
 		ON DELETE CASCADE,
 	FOREIGN KEY (exhibit_id, price) REFERENCES ExhibitCharges (exhibit_id, price)
