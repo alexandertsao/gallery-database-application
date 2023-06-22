@@ -1,111 +1,88 @@
-import {postToServer, multiPostToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
+import {postToServer, 
+    multiPostToServer, 
+    toSQL, 
+    alertDatabaseError, 
+    sanitize, 
+    replaceUndefined, 
+    addSingleQuotesOrNULL,
+    inputArrayToString} from "../shared.js";
 
-var type = "museum";
-
-function radioTypeSelected(e) {
-    console.log(e);
-    if (this.checked) {
-        console.log(this.id);
-        if (this.id == 'radio-type-museum') {
-            type = "museum";
-            document.getElementById("div-physical-group").style.display = "block";
-            document.getElementById("div-virtual-group").style.display = "none";
-        } else if (this.id == 'radio-type-art-gallery') {
-            type = "art-gallery"
-            document.getElementById("div-physical-group").style.display = "block";
-            document.getElementById("div-virtual-group").style.display = "none";
-        } else {
-            type = "virtual-art-gallery"
-            document.getElementById("div-physical-group").style.display = "none";
-            document.getElementById("div-virtual-group").style.display = "block";
+/**
+ * Loads a list of all galleries into the select (dropdown) menu.
+ */
+function setupSelectGallery() {
+    var query = "SELECT * FROM Gallery;"
+    postToServer(toSQL(query), (response) => {
+        document.getElementById("select-gallery").innerHTML = "<option selected>Select a Gallery</option>";
+        var galleries = JSON.parse(response);
+        var optionHTML = "";
+        for (var i = 0; i < galleries.length; i++) {
+            optionHTML += "<option value=" + galleries[i].gallery_id + ">" + galleries[i].name + "</option>"
         }
-    }
+        optionHTML += "<option value=0 selected>Select a Gallery</option>";
+        document.getElementById("select-gallery").innerHTML = optionHTML;
+    }, alertDatabaseError);
 }
 
-function setupRadioType() {
-    const radioButtons = document.querySelectorAll('input[name="radio-type"]');
-    for(const radioButton of radioButtons){
-        radioButton.addEventListener('change', radioTypeSelected);
-    }   
+/**
+ * Alerts the user when a exhibit is successfully registered to a gallery.
+ * @param {*} response
+ * @param {*} exhibitName
+ * @param {*} galleryName 
+ */
+function registerSuccess(response, exhibitName, galleryName) {
+    alert(exhibitName + " successfully registered to " + galleryName + "!");
 }
 
+/**
+ * Adds a listener to the register form.
+ * Upon clicking "Register Exhibit", the form validates and sanitizes all inputs
+ * and sends SQL queries to add the exhibit to the Exhibit table.
+ */
 function setupForm() {
-    var registerForm = document.getElementById("form-register-a-gallery");
+    var registerForm = document.getElementById("form-register-an-exhibit");
     registerForm.addEventListener("submit", (e) => {
         e.preventDefault();
         
         var validInput = false;
-        const textName = document.getElementById("text-name").value;
-        const textAddress = document.getElementById("text-address").value;
-        const textCity = document.getElementById("text-city").value;
-        const textStateProvince = document.getElementById("text-state-province").value;
-        const textPostalCode = document.getElementById("text-postal-code").value;
-        const textCountry = document.getElementById("text-country").value;
-        const textURL = document.getElementById("text-url").value;
-        if (type == "museum" || type == "art-gallery") {
-            if (
-                validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
-                ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
-                ((validator.isAlphanumeric(textCity, undefined, {ignore:" -"}) && validator.isLength(textCity, { min: 0, max: 255 })) || validator.isEmpty(textCity)) &&
-                ((validator.isAlphanumeric(textStateProvince, undefined, {ignore:" -"}) && validator.isLength(textStateProvince, { min: 0, max: 255 })) || validator.isEmpty(textStateProvince)) &&
-                ((validator.isAlphanumeric(textPostalCode, undefined, {ignore:" -"}) && validator.isLength(textPostalCode, { min: 0, max: 255 })) || validator.isEmpty(textPostalCode)) &&
-                ((validator.isAlphanumeric(textCountry, undefined, {ignore:" -"}) && validator.isLength(textCountry, { min: 0, max: 255 })) || validator.isEmpty(textCountry))
-                ) {
-                validInput = true;
-                alert("Input is valid.");
-            } else {
-                alert("Input is invalid.");
-            }
-        } else if (type == "virtual-art-gallery") {
-            if (
-                validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
-                ((validator.isURL(textURL, undefined, {ignore:" -"}) && validator.isLength(textURL, { min: 0, max: 255 })) || validator.isEmpty(textURL))
-                ) {
-                validInput = true;
-                alert("Input is valid.");
-            } else {
-                alert("Input is invalid.");
-            }
+
+        const textTitle = document.getElementById("text-title").value;
+        const selectGallery = document.getElementById("select-gallery").value;
+        const dateStart = document.getElementById("date-start").value;
+        const dateEnd = document.getElementById("date-end").value;
+        if (
+            validator.isAlphanumeric(textTitle, undefined, {ignore:" -"}) && validator.isLength(textTitle, { min: 0, max: 255 }) &&
+            (selectGallery != 0) &&
+            (validator.isDate(dateStart, { format: "YYYY-MM-DD" }) || validator.isEmpty(dateStart)) &&
+            (validator.isDate(dateEnd, { format: "YYYY-MM-DD" }) || validator.isEmpty(dateEnd))
+            ) {
+            validInput = true;
+        } else {
+            alert("Input is invalid.");
         }
 
+        const inputArray = [textTitle, dateStart, dateEnd];
+
         if (validInput) {
-            var query1 = "INSERT INTO Gallery (name) VALUES (" +
-                        "'" + sanitize(textName) + "'" + ");";
+            var query = "INSERT INTO Exhibit (gallery_id, title, start_date, end_date) VALUES(" + 
+                         selectGallery + ", " +
+                         inputArrayToString(inputArray) + ");";
 
-            var query2 = "SET @last_id = LAST_INSERT_ID();";
-
-            var args = [];
-            if (type == "museum") {
-                args = ["Museum", textAddress, textCity, textStateProvince, textPostalCode, textCountry];
-            } else if (type == "art-gallery") {
-                args = ["Art_Gallery", textAddress, textCity, textStateProvince, textPostalCode, textCountry];
-            } else if (type == "virtual-art-gallery") {
-                args = ["Virtual_Art_Gallery", textURL];
-            }            
-
-            var query3 = "INSERT INTO " + args[0] + " VALUES (@last_id, ";
-            for (var i = 1; i < args.length; i++) {
-                if (i == args.length - 1) {
-                    query3 += "'" + sanitize(args[i]) + "'";
-                } else {
-                    query3 += "'" + sanitize(args[i]) + "'" + ", ";
-                }
-            }
-            query3 += ");";
-
-            const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
-                                {query: query2, func: undefined, arg1: undefined, arg2: undefined},
-                                {query: query3, func: undefined, arg1: undefined, arg2: undefined}];
-
-            multiPostToServer("", queryArray, alertDatabaseError);
+            var selectGalleryElement = document.getElementById("select-gallery");
+            postToServer(toSQL(query), 
+                         registerSuccess, 
+                         alertDatabaseError, 
+                         textTitle, 
+                         selectGalleryElement.options[selectGalleryElement.selectedIndex].text);
         }
 
       });
 }
 
+/**
+ * Sets up page and calls function to setup form on load.
+ */
 $(function() {
-    document.getElementById("div-physical-group").style.display = "block";
-    document.getElementById("div-virtual-group").style.display = "none";
-    setupRadioType();
+    setupSelectGallery();
     setupForm();
 });
