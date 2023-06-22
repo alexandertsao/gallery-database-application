@@ -191,7 +191,7 @@ CREATE TABLE Transfers (
 
 CREATE TABLE CustomerVisitsExhibit (
 	customer_id	INT,
-	time		TIMESTAMP,
+	time		DATE,
 	exhibit_id	INT,
 	PRIMARY KEY (customer_id, time),
 	FOREIGN KEY(customer_id) REFERENCES Customer(customer_id)
@@ -215,7 +215,7 @@ CREATE TABLE ExhibitCharges (
 CREATE TABLE Visits (
 	customer_id	INT,
 	exhibit_id	INT,
-	time		timestamp NOT NULL,
+	time		DATE NOT NULL,
 	price		INT,
 	PRIMARY KEY (customer_id, exhibit_id),
 	FOREIGN KEY (customer_id, time) REFERENCES CustomerVisitsExhibit (customer_id, time)

@@ -332,22 +332,21 @@ VALUES(11, 5, '1852-02-23', 2);
 
 INSERT INTO Transfers (art_id, origin, date, destination)
 VALUES(12, 5, '2024-01-27', 3);
------------------------
 
 INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
-VALUES(1, '2022-04-02 23:59:59.10', 1);
+VALUES(1, '2022-04-02', 1);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
-VALUES(2, '2022-11-30 23:59:59.10', 2);
+VALUES(2, '2022-11-30', 2);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
-VALUES(3, '2022-07-21 23:59:59.10', 3);
+VALUES(3, '2022-07-21', 3);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
-VALUES(4,  '2022-03-15 23:59:59.10', 4);
+VALUES(4,  '2022-03-15', 4);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, time, exhibit_id)
-VALUES(5, '2022-08-03 23:59:59.10', 5);
+VALUES(5, '2022-08-03', 5);
 
 INSERT INTO ExhibitCharges (exhibit_id, price, price_group)
 VALUES(1, 50, 'Adult');
@@ -395,16 +394,16 @@ INSERT INTO ExhibitCharges (exhibit_id, price, price_group)
 VALUES(5, 25, 'Senior');
 
 INSERT INTO Visits (customer_id, exhibit_id, time, price)
-VALUES (1, 1, '2022-04-02 23:59:59.10', 50);
+VALUES (1, 1, '2022-04-02', 50);
 
 INSERT INTO Visits (customer_id, exhibit_id, time, price)
-VALUES (2, 2, '2022-11-30 23:59:59.10', 50);
+VALUES (2, 2, '2022-11-30', 50);
 
 INSERT INTO Visits (customer_id, exhibit_id, time, price)
-VALUES (3, 3, '2022-07-21 23:59:59.10', 40);
+VALUES (3, 3, '2022-07-21', 40);
 
 INSERT INTO Visits (customer_id, exhibit_id, time, price)
-VALUES (4, 4, '2022-03-15 23:59:59.10', 25);
+VALUES (4, 4, '2022-03-15', 25);
 
 INSERT INTO Visits (customer_id, exhibit_id, time, price)
-VALUES (5, 5, '2022-08-03 23:59:59.10', 50);
+VALUES (5, 5, '2022-08-03', 50);
