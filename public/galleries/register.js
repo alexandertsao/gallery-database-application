@@ -1,4 +1,11 @@
-import {postToServer, multiPostToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined} from "../shared.js";
+import {postToServer, 
+    multiPostToServer, 
+    toSQL, 
+    alertDatabaseError, 
+    sanitize, 
+    replaceUndefined, 
+    addSingleQuotesOrNULL,
+    inputArrayToString} from "../shared.js";
 
 // Stores globally the type of gallery (museum, art-gallery, or virtual-art-gallery).
 var type = "museum";
@@ -65,7 +72,7 @@ function setupForm() {
         const textPostalCode = document.getElementById("text-postal-code").value;
         const textCountry = document.getElementById("text-country").value;
         const textURL = document.getElementById("text-url").value;
-        if (type == "museum" || type == "art-gallery") {
+        if (type == "museum" || type == "art gallery") {
             if (
                 validator.isAlphanumeric(textName, undefined, {ignore:" -"}) && validator.isLength(textName, { min: 0, max: 255 }) &&
                 ((validator.isAlphanumeric(textAddress, undefined, {ignore:" -"}) && validator.isLength(textAddress, { min: 0, max: 255 })) || validator.isEmpty(textAddress)) &&
@@ -104,15 +111,9 @@ function setupForm() {
                 args = ["Virtual_Art_Gallery", textURL];
             }            
 
-            var query3 = "INSERT INTO " + args[0] + " VALUES (@last_id, ";
-            for (var i = 1; i < args.length; i++) {
-                if (i == args.length - 1) {
-                    query3 += "'" + sanitize(args[i]) + "'";
-                } else {
-                    query3 += "'" + sanitize(args[i]) + "'" + ", ";
-                }
-            }
-            query3 += ");";
+            var query3 = "INSERT INTO " + args[0] + " VALUES (@last_id, " +
+                         inputArrayToString(args.slice(1)) +
+                         ");";
 
             const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
                                 {query: query2, func: undefined, arg1: undefined, arg2: undefined},

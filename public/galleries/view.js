@@ -1,4 +1,11 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined, multiPostToServer} from "../shared.js";
+import {postToServer, 
+        multiPostToServer, 
+        toSQL, 
+        alertDatabaseError, 
+        sanitize, 
+        replaceUndefined, 
+        addSingleQuotesOrNULL,
+        inputArrayToString} from "../shared.js";
 
 /**
  * Adds a listener to the gallery search form.
@@ -28,7 +35,6 @@ function setupForm() {
             (validator.isAlphanumeric(textQuery, undefined, {ignore:" -"}) && validator.isLength(textQuery, { min: 0, max: 255 })) || validator.isEmpty(textQuery)
             ) {
             validInput = true;
-            //alert("Input is valid.");
         } else {
             alert("Input is invalid.");
         }
@@ -122,19 +128,16 @@ function onClickUpdate(event) {
     var divTextIds = event.currentTarget.divTextIds;
 
     //Validate inputs
-    alert("tried to update!");
     
     var validInput = false;
-    
-    alert("edit-" + divTextIds[0]);
-    alert(document.getElementById("edit-" + divTextIds[0]));
+
     var textName = document.getElementById("edit-" + divTextIds[0]).value;
-    var textAddress = "NULL";
-    var textCity = "NULL";
-    var textStateProvince = "NULL";
-    var textPostalCode = "NULL";
-    var textCountry = "NULL";
-    var textUrl = "NULL";
+    var textAddress = "";
+    var textCity = "";
+    var textStateProvince = "";
+    var textPostalCode = "";
+    var textCountry = "";
+    var textUrl = "";
     if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum" || 
     document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
         if (document.getElementById("edit-" + divTextIds[1]) != null) textAddress = document.getElementById("edit-" + divTextIds[1]).value;
@@ -177,23 +180,23 @@ function onClickUpdate(event) {
         var query2 = "UPDATE "
         if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum") {
             query2 += "Museum " +
-                        "SET address = '" + sanitize(textAddress) + "', " +
-                        "city = '" + sanitize(textCity) + "', " +
-                        "state_province = '" + sanitize(textStateProvince) + "', " +
-                        "postal_code = '" + sanitize(textPostalCode) + "', " +
-                        "country = '" + sanitize(textCountry) + "' " +
+                        "SET address = " + addSingleQuotesOrNULL(textAddress) + ", " +
+                        "city = " + addSingleQuotesOrNULL(textCity) + ", " +
+                        "state_province = " + addSingleQuotesOrNULL(textStateProvince) + ", " +
+                        "postal_code = " + addSingleQuotesOrNULL(textPostalCode) + ", " +
+                        "country = " + addSingleQuotesOrNULL(textCountry) + " " +
                         "WHERE gallery_id = " + currentId + ";";
         } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
             query2 += "Art_Gallery " +
-                        "SET address = '" + sanitize(textAddress) + "', " +
-                        "city = '" + sanitize(textCity) + "', " +
-                        "state_province = '" + sanitize(textStateProvince) + "', " +
-                        "postal_code = '" + sanitize(textPostalCode) + "', " +
-                        "country = '" + sanitize(textCountry) + "' " +
+                        "SET address = " + addSingleQuotesOrNULL(textAddress) + ", " +
+                        "city = " + addSingleQuotesOrNULL(textCity) + ", " +
+                        "state_province = " + addSingleQuotesOrNULL(textStateProvince) + ", " +
+                        "postal_code = " + addSingleQuotesOrNULL(textPostalCode) + ", " +
+                        "country = " + addSingleQuotesOrNULL(textCountry) + " " +
                         "WHERE gallery_id = " + currentId + ";"; 
         } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Virtual Art Gallery") {
             query2 += "Virtual_Art_Gallery " +
-                        "SET url = '" + sanitize(textUrl) + "' " +
+                        "SET url = " + addSingleQuotesOrNULL(textUrl) + " " +
                         "WHERE gallery_id = " + currentId + ";";
         }
 
@@ -214,13 +217,13 @@ function onClickUpdate(event) {
  * @param {*} divTextIds 
  */
 function updateSuccess(response, currentId, divTextIds) {
-    alert(currentId);
-    alert(divTextIds);
     for (var i = 0; i < divTextIds.length; i++) {
         const newValue = document.getElementById("edit-" + divTextIds[i]).value;
 
         document.getElementById(divTextIds[i]).innerHTML = newValue;
     }
+
+    alert("Gallery successfully updated.");
 
     document.getElementById("button-edit-"+ currentId).style.display = "block";
     document.getElementById("button-update-" + currentId).style.display = "none";
@@ -264,6 +267,7 @@ function onClickDelete(event) {
 function deleteSuccess(response, currentId) {
     var rowIndex = document.getElementById("tr-gallery-" + currentId).rowIndex;
     document.getElementById("table-galleries").deleteRow(rowIndex);
+    alert("Gallery successfully deleted.");
 }
 
 /**
@@ -320,7 +324,7 @@ function loadTable(response, args) {
 
     var data = JSON.parse(response);
     if (data.length == 0) {
-        document.getElementById("tbody-galleries").innerHTML = "No results matching the provided query found.";
+        document.getElementById("tbody-galleries").innerHTML = "No results found matching the provided query.";
         return;
     }
 

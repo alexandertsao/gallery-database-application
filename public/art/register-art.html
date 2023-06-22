@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Gallery Database - Exhibits</title>
+    <title>Gallery Database - Art</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
@@ -16,7 +16,7 @@
     <!-- Validator -->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
 
-    <script type="module" src="register.js"></script> 
+    <script type="module" src="register-art.js"></script> 
 
   </head>
   <body>
@@ -35,8 +35,8 @@
             <ul class="nav navbar-nav">
               <li><a href="../front.html">Home</a></li>
               <li><a href="../galleries/view.html">Galleries</a></li>
-              <li class="active"><a href="../exhibits/view.html">Exhibits</a></li>
-              <li><a href="../art/view.html">Art</a></li>
+              <li><a href="../exhibits/view.html">Exhibits</a></li>
+              <li class="active"><a href="../art/view.html">Art</a></li>
               <li><a href="../visitors/register.html">Visitors</a></li>
               <li><a href="../statistics/statistics.html">Statistics</a></li>
             </ul>
@@ -50,40 +50,58 @@
       <div class="container-fluid text-center">    
         <div class="row content">
           <div class="col-sm-2 sidenav">
-            <p><a href="../exhibits/view.html">View Exhibits</a></p>
-            <p><a href="../exhibits/register.html">Register an Exhibit</a></p>
+            <p><a href="view.html">View Artworks</a></p>
+            <p><a href="register-art.html">Register an Artwork</a></p>
+            <p><a href="register-artist.html">Register an Artist</a></p>
           </div>
           <div class="col-sm-8 text-left"> 
             <!-- Search form adapted from https://www.w3schools.com/bootstrap/bootstrap_forms.asp-->
-            <h3>Register an Exhibit</h3><hr>
-            <form class="form-horizontal" id="form-register-an-exhibit" action="">
+            <h3>Register an Artwork</h3><hr>
+            <form class="form-horizontal" id="form-register-an-artwork" action="">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="text-title">Title (required):</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="text-title" name="text-title" placeholder="e.g., Imagine Picasso - The Immersive Exhibition">
+                        <input type="text" class="form-control" id="text-title" placeholder="e.g., Mona Lisa" name="text-title">
                     </div>
                 </div>
+
                 <div class="form-group">
-                  <label class="control-label col-sm-2" for="select-gallery">Gallery (required):</label>
-                  <div class="col-sm-10"><select class="form-control" id="select-gallery">
-                      <option selected>Select a Gallery</option>
+                    <label class="control-label col-sm-2" for="text-year-created">Year Created:</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="1" class="form-control" id="text-year-created" placeholder="e.g., 2023" name="text-year-created">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="textarea-description">Description:</label>
+                  <div class="col-sm-10">
+                      <textarea class="form-control" id="textarea-description" rows="4" maxlength="4000" placeholder="Enter Description" name="textarea-description"></textarea>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="select-artist">Artist:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-artist">
+                      <option selected>Select an Artist</option>
                   </select></div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="date-start">Start Date:</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="date-start" name="date-start">
-                    </div>
+                  <label class="control-label col-sm-2" for="select-owner">Owner:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-owner">
+                      <option selected>Select an Owner</option>
+                  </select></div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="date-end">End Date:</label>
-                    <div class="col-sm-10">
-                      <input type="date" class="form-control" id="date-end" name="date-end">
-                    </div>
+                  <label class="control-label col-sm-2" for="select-exhibit">Exhibit:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-exhibit">
+                      <option selected>Select an Exhibit</option>
+                  </select></div>
                 </div>
-                <div class="form-group">        
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" id="button-register-exhibit" name="button-register-exhibit">Register Exhibit</button>
+                <br>
+                <div class="form-group">   
+                    <label class="control-label col-sm-2"></label>     
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-default" id="button-register-artwork" name="button-register-artwork">Register Artwork</button>
                     </div>
                 </div>
             </form>        
