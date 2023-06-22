@@ -28,6 +28,7 @@ function postToServer(query, callbackSuccess, callbackFail, arg1, arg2) {
 	  }
 	};
 	xhr.send(query);
+    alert("POST: " + queryArray[0].query);
 }
 
 /**
@@ -40,8 +41,6 @@ function multiPostToServer(response, queryArray, callbackFail) {
     // * must have same callbackFail
     // * func(response, arg1, arg2) is only called on the last query
     if (queryArray.length == 0) return;
-
-    alert("multiPostToServer: " + queryArray[0].query);
 
     if (queryArray.length == 1 && queryArray[0].func != undefined) {
         postToServer(toSQL(queryArray[0].query),

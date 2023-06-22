@@ -28,7 +28,6 @@ function setupForm() {
             (validator.isAlphanumeric(textQuery, undefined, {ignore:" -"}) && validator.isLength(textQuery, { min: 0, max: 255 })) || validator.isEmpty(textQuery)
             ) {
             validInput = true;
-            //alert("Input is valid.");
         } else {
             alert("Input is invalid.");
         }
@@ -122,12 +121,9 @@ function onClickUpdate(event) {
     var divTextIds = event.currentTarget.divTextIds;
 
     //Validate inputs
-    alert("tried to update!");
     
     var validInput = false;
-    
-    alert("edit-" + divTextIds[0]);
-    alert(document.getElementById("edit-" + divTextIds[0]));
+
     var textName = document.getElementById("edit-" + divTextIds[0]).value;
     var textAddress = "NULL";
     var textCity = "NULL";
@@ -214,8 +210,7 @@ function onClickUpdate(event) {
  * @param {*} divTextIds 
  */
 function updateSuccess(response, currentId, divTextIds) {
-    alert(currentId);
-    alert(divTextIds);
+
     for (var i = 0; i < divTextIds.length; i++) {
         const newValue = document.getElementById("edit-" + divTextIds[i]).value;
 
