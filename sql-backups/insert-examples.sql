@@ -135,50 +135,50 @@ VALUES(4, 'LA Spring Exhibit', '2027-03-01', '2027-04-30');
 INSERT INTO Exhibit (gallery_id, title, start_date, end_date)
 VALUES(7, 'Meet the Emperor Exhibit', '2026-06-01', '2026-09-01');
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(1, 'Guernica', 1937, 'The grey, black, and white painting, on a canvas 3.49 meters (11 ft 5 in) tall and 7.76 meters (25 ft 6 in) across, portrays the suffering wrought by violence and chaos. Prominent in the composition are a gored horse, a bull, screaming women, a dead baby, a dismembered soldier, and flames.', 2);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(1, 'Guernica', 1937, 'The grey, black, and white painting, on a canvas 3.49 meters (11 ft 5 in) tall and 7.76 meters (25 ft 6 in) across, portrays the suffering wrought by violence and chaos. Prominent in the composition are a gored horse, a bull, screaming women, a dead baby, a dismembered soldier, and flames.', 2, 1);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(2, 'The Last Supper', 1498, 'The painting represents the scene of the Last Supper of Jesus with the Twelve Apostles, as it is told in the Gospel of John, specifically the moment after Jesus announces that one of his apostles will betray him. Its handling of space, mastery of perspective, treatment of motion and complex display of human emotion has made it one of the Western world''s most recognizable paintings and among Leonardo''s most celebrated works. Some commentators consider it pivotal in inaugurating the transition into what is now termed the High Renaissance.', 1);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(2, 'The Last Supper', 1498, 'The painting represents the scene of the Last Supper of Jesus with the Twelve Apostles, as it is told in the Gospel of John, specifically the moment after Jesus announces that one of his apostles will betray him. Its handling of space, mastery of perspective, treatment of motion and complex display of human emotion has made it one of the Western world''s most recognizable paintings and among Leonardo''s most celebrated works. Some commentators consider it pivotal in inaugurating the transition into what is now termed the High Renaissance.', 1, 2);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(3, 'The Indian Church', 1929, 'The Indian Church is considered a transitional painting because it reflects the transition of Carr''s artistic work from purely depicting Native Art to shifting her focus toward the land. In her 1946 autobiography, Growing Pains, Carr wrote that she felt the subject deeply. She painted it at Friendly Cove, near a lighthouse.', 1);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(3, 'The Indian Church', 1929, 'The Indian Church is considered a transitional painting because it reflects the transition of Carr''s artistic work from purely depicting Native Art to shifting her focus toward the land. In her 1946 autobiography, Growing Pains, Carr wrote that she felt the subject deeply. She painted it at Friendly Cove, near a lighthouse.', 1, 3);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(4, 'Burnt Kiss', NULL, NULL, NULL);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(4, 'Burnt Kiss', NULL, NULL, NULL, 4);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(5, 'UNTITLED - CROUCHING HUNTER', NULL, 'Charlie Inukpuk told Louis Gagnon: When I first started carving, the main challenge was determining the hardness of the soapstone since the density varies. It was easier to work with the softer stone. I would start by axe-chipping it, and as I was doing this I would start visualizing it. The shape of the stone also provided me with ideas. As I axed it gradually, my thoughts would go: This is shaping like this... It is going to be… and the carving being formed would follow my thoughts from there. ...We used shoe polish to darken the stone because it made the carvings more attractive and shiny.', NULL);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(5, 'UNTITLED - CROUCHING HUNTER', NULL, 'Charlie Inukpuk told Louis Gagnon: When I first started carving, the main challenge was determining the hardness of the soapstone since the density varies. It was easier to work with the softer stone. I would start by axe-chipping it, and as I was doing this I would start visualizing it. The shape of the stone also provided me with ideas. As I axed it gradually, my thoughts would go: This is shaping like this... It is going to be… and the carving being formed would follow my thoughts from there. ...We used shoe polish to darken the stone because it made the carvings more attractive and shiny.', NULL, 5);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(5, 'Man', 1982, NULL, 4);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(5, 'Man', 1982, NULL, 4, 5);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(3, 'Man with Seal', 1987, NULL, 4);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(3, 'Man with Seal', 1987, NULL, 4, 5);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(1, 'Seal Hunter', NULL, 'a black stone carving of a hunter with seal', 4);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(1, 'Seal Hunter', NULL, 'a black stone carving of a hunter with seal', 4, 5);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(2, 'Mona Lisa', 1506, 'Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, the most parodied work of art in the world\". The painting''s novel qualities include the subject''s enigmatic expression, monumentality of the composition, the subtle modeling of forms, and the atmospheric illusionism.', 1);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(2, 'Mona Lisa', 1506, 'Considered an archetypal masterpiece of the Italian Renaissance, it has been described as \"the best known, the most visited, the most written about, the most sung about, the most parodied work of art in the world\". The painting''s novel qualities include the subject''s enigmatic expression, monumentality of the composition, the subtle modeling of forms, and the atmospheric illusionism.', 1, 2);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(3, 'The Weeping Woman', 1937, 'The Weeping Woman (French: La Femme qui pleure) is a series of oil on canvas paintings by Pablo Picasso, the last of which was created in late 1937. The paintings depict Dora Maar, Picasso''s mistress and muse. The Weeping Woman paintings were produced by Picasso in response to the bombing of Guernica in the Spanish Civil War and are closely associated with the iconography in his painting Guernica. Picasso was intrigued with the subject of the weeping woman, and revisited the theme numerous times that year. The last version, created on 26 October 1937, was the most elaborate of the series, and has been housed in the collection of the Tate Modern in London since 1987. Another Weeping Woman painting is housed at the National Gallery of Victoria and was involved in a high-profile political art theft.', 2);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(3, 'The Weeping Woman', 1937, 'The Weeping Woman (French: La Femme qui pleure) is a series of oil on canvas paintings by Pablo Picasso, the last of which was created in late 1937. The paintings depict Dora Maar, Picasso''s mistress and muse. The Weeping Woman paintings were produced by Picasso in response to the bombing of Guernica in the Spanish Civil War and are closely associated with the iconography in his painting Guernica. Picasso was intrigued with the subject of the weeping woman, and revisited the theme numerous times that year. The last version, created on 26 October 1937, was the most elaborate of the series, and has been housed in the collection of the Tate Modern in London since 1987. Another Weeping Woman painting is housed at the National Gallery of Victoria and was involved in a high-profile political art theft.', 2, 1);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(3, 'Alien Invasion', 2021, 'Digital creation depicting contact between an unidentified flying object and humankind.', 3);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(3, 'Alien Invasion', 2021, 'Digital creation depicting contact between an unidentified flying object and humankind.', 3, 7);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(2, 'Hula Hoop', 2016, 'Kids playing in the sun on a summer day.', 3);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(2, 'Hula Hoop', 2016, 'Kids playing in the sun on a summer day.', 3, 7);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(4, 'Stubbed Toe', 2008, 'The pain of squishing a foot against a corner.', 3);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(4, 'Stubbed Toe', 2008, 'The pain of squishing a foot against a corner.', 3, 7);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(2, 'Electric Boogaloooo', 2020, 'It is a true electric boogaloo 2 when it came out.', 3);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(2, 'Electric Boogaloooo', 2020, 'It is a true electric boogaloo 2 when it came out.', 3, 6);
 
-INSERT INTO Art (owner_id,title,year_created,description, exhibit_id)
-VALUES(5, 'Double Rainbow Triangles', 2022, 'Double Rainbow Triangles? What does it mean?', 3);
+INSERT INTO Art (owner_id,title,year_created,description, exhibit_id, artist_id)
+VALUES(5, 'Double Rainbow Triangles', 2022, 'Double Rainbow Triangles? What does it mean?', 3, 6);
 
 INSERT INTO Makes (art_id, artist_id) 
 VALUES(1, 1);
