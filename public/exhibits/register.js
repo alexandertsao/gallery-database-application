@@ -26,6 +26,7 @@ function setupSelectGallery() {
 
 /**
  * Alerts the user when a exhibit is successfully registered to a gallery.
+ * @param {*} response
  * @param {*} exhibitName
  * @param {*} galleryName 
  */

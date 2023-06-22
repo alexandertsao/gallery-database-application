@@ -60,8 +60,8 @@ function setupSelectExhibit() {
 
 /**
  * Alerts the user when an artwork is successfully registered.
- * @param {*} exhibitName
- * @param {*} galleryName 
+ * @param {*} response
+ * @param {*} artworkname 
  */
 function registerSuccess(response, artworkName) {
     alert(artworkName + " successfully registered!");

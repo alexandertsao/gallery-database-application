@@ -223,6 +223,7 @@ function setupForm() {
 
 /** 
 * Handles click event on the Delete buttons.
+* @param {*} event
 */
 function onClickDelete(event) {
     var currentId = event.currentTarget.artId;
@@ -234,6 +235,11 @@ function onClickDelete(event) {
     }
 }
 
+/**
+ * Alerts the user on successful delete.
+ * @param {*} response 
+ * @param {*} currentId 
+ */
 function deleteSuccess(response, currentId) {
     var rowIndex = document.getElementById("tr-artwork-" + currentId).rowIndex;
     document.getElementById("table-artworks").deleteRow(rowIndex);
