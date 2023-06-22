@@ -1,4 +1,11 @@
-import {postToServer, toSQL, alertDatabaseError, sanitize, replaceUndefined, multiPostToServer} from "../shared.js";
+import {postToServer, 
+        multiPostToServer, 
+        toSQL, 
+        alertDatabaseError, 
+        sanitize, 
+        replaceUndefined, 
+        addSingleQuotesOrNULL,
+        inputArrayToString} from "../shared.js";
 
 /**
  * Adds a listener to the gallery search form.
@@ -125,12 +132,12 @@ function onClickUpdate(event) {
     var validInput = false;
 
     var textName = document.getElementById("edit-" + divTextIds[0]).value;
-    var textAddress = "NULL";
-    var textCity = "NULL";
-    var textStateProvince = "NULL";
-    var textPostalCode = "NULL";
-    var textCountry = "NULL";
-    var textUrl = "NULL";
+    var textAddress = "";
+    var textCity = "";
+    var textStateProvince = "";
+    var textPostalCode = "";
+    var textCountry = "";
+    var textUrl = "";
     if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum" || 
     document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
         if (document.getElementById("edit-" + divTextIds[1]) != null) textAddress = document.getElementById("edit-" + divTextIds[1]).value;
@@ -173,23 +180,23 @@ function onClickUpdate(event) {
         var query2 = "UPDATE "
         if (document.getElementById("tr-gallery-" + currentId).galleryType == "Museum") {
             query2 += "Museum " +
-                        "SET address = '" + sanitize(textAddress) + "', " +
-                        "city = '" + sanitize(textCity) + "', " +
-                        "state_province = '" + sanitize(textStateProvince) + "', " +
-                        "postal_code = '" + sanitize(textPostalCode) + "', " +
-                        "country = '" + sanitize(textCountry) + "' " +
+                        "SET address = " + addSingleQuotesOrNULL(textAddress) + ", " +
+                        "city = " + addSingleQuotesOrNULL(textCity) + ", " +
+                        "state_province = " + addSingleQuotesOrNULL(textStateProvince) + ", " +
+                        "postal_code = " + addSingleQuotesOrNULL(textPostalCode) + ", " +
+                        "country = " + addSingleQuotesOrNULL(textCountry) + " " +
                         "WHERE gallery_id = " + currentId + ";";
         } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Art Gallery") {
             query2 += "Art_Gallery " +
-                        "SET address = '" + sanitize(textAddress) + "', " +
-                        "city = '" + sanitize(textCity) + "', " +
-                        "state_province = '" + sanitize(textStateProvince) + "', " +
-                        "postal_code = '" + sanitize(textPostalCode) + "', " +
-                        "country = '" + sanitize(textCountry) + "' " +
+                        "SET address = " + addSingleQuotesOrNULL(textAddress) + ", " +
+                        "city = " + addSingleQuotesOrNULL(textCity) + ", " +
+                        "state_province = " + addSingleQuotesOrNULL(textStateProvince) + ", " +
+                        "postal_code = " + addSingleQuotesOrNULL(textPostalCode) + ", " +
+                        "country = " + addSingleQuotesOrNULL(textCountry) + " " +
                         "WHERE gallery_id = " + currentId + ";"; 
         } else if (document.getElementById("tr-gallery-" + currentId).galleryType == "Virtual Art Gallery") {
             query2 += "Virtual_Art_Gallery " +
-                        "SET url = '" + sanitize(textUrl) + "' " +
+                        "SET url = " + addSingleQuotesOrNULL(textUrl) + " " +
                         "WHERE gallery_id = " + currentId + ";";
         }
 
