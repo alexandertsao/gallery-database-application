@@ -169,11 +169,11 @@ function setupForm() {
         if (checkboxDisplayExhibitGallery) query += ", NULL as gallery_name";
         if (checkboxDisplayExhibitStartDate) query += ", NULL as start_date";
         if (checkboxDisplayExhibitEndDate) query += ", NULL as end_date";
-        query += " FROM Art art1, Artist artist1, Owner owner1, Exhibit exhibit1, Gallery gallery1" +
+        query += " FROM Art art1, Artist artist1, Owner owner1" +
                  " WHERE art1.artist_id = artist1.artist_id" +
                  " AND art1.owner_id = owner1.owner_id" +
-                 " AND art1.exhibit_id = NULL" +
-                 " AND exhibit1.gallery_id = gallery1.gallery_id";
+                 " AND art1.exhibit_id IS NULL";
+                //  " AND exhibit1.gallery_id = gallery1.gallery_id";
         query += " AND (art1.title LIKE '%" + sanitize(textSearch) + "%' OR art1.art_id LIKE '%" + sanitize(textSearch) + "%')";
         for (var i = 0; i < selectArtistMultiple.length; i++) {
             if (selectArtistMultiple.length == 1) {
@@ -293,7 +293,7 @@ function loadTable(response, args) {
     var tableHTML = "";
     var deleteButtons = [];
     for (var i = 0; i < data.length; i++) {
-        var currentId = data[i].exhibit_id;
+        var currentId = data[i].art_id;
         tableHTML += "<tr id='tr-artwork-" + currentId + "'>" +
                      "<td id='td-artwork-id-" + currentId + "'>" + data[i].art_id + "</td>";
         if (args[0]) tableHTML += "<td id='td-artwork-art-title-" + currentId + "'><div id='div-text-artwork-art-title-" + currentId + "'>" + replaceUndefined(data[i].art_title) + "</div></td>";

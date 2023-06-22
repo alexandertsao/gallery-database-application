@@ -16,7 +16,7 @@
     <!-- Validator -->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
 
-    <script type="module" src="register.js"></script> 
+    <script type="module" src="register-art.js"></script> 
 
   </head>
   <body>
@@ -59,79 +59,49 @@
             <h3>Register an Artwork</h3><hr>
             <form class="form-horizontal" id="form-register-an-artwork" action="">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="text-name">Title:</label>
+                    <label class="control-label col-sm-2" for="text-title">Title (required):</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="text-name" placeholder="e.g., Mona Lisa" name="text-name">
+                        <input type="text" class="form-control" id="text-title" placeholder="e.g., Mona Lisa" name="text-title">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="text-name">Year Created:</label>
+                    <label class="control-label col-sm-2" for="text-year-created">Year Created:</label>
                     <div class="col-sm-10">
-                        <input type="number" step="1" class="form-control" id="text-name" placeholder="e.g., 2023" name="text-name">
+                        <input type="number" step="1" class="form-control" id="text-year-created" placeholder="e.g., 2023" name="text-year-created">
                     </div>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label col-sm-2" for="text-name">Description:</label>
+                  <label class="control-label col-sm-2" for="textarea-description">Description:</label>
                   <div class="col-sm-10">
-                      <textarea rows="4" maxlength="4000" style="width: 809px;" placeholder="Enter Description"></textarea>
+                      <textarea class="form-control" id="textarea-description" rows="4" maxlength="4000" placeholder="Enter Description" name="textarea-description"></textarea>
                   </div>
                 </div>
-
-                <!-- Needed for formatting -->
-                <div class="form-group">
-                    <form id="form-group">
-                    </form>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="text-gallery" style="text-align: right;">Artist:</label>
-                  <form class="form-group; col-sm-10; container;">
-                      <select width=300 style="width: 350px" required>
-                          <option href="#">Artist 1</option>
-                          <option href="#">Artist 2</option>
-                          <option href="#">Artist 3</option>
-                          <option href="#">Artist 4</option>
-                          <option href="#">Artist 5</option>
-                          <option href="#" selected>Select an Artist</option>
-                      </select>
-                  </form>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="text-gallery" style="text-align: right;">Owner:</label>
-                  <form class="form-group; col-sm-10; container">
-                      <select width=300 style="width: 350px" required>
-                          <option href="#">Owner 1</option>
-                          <option href="#">Owner 2</option>
-                          <option href="#">Owner 3</option>
-                          <option href="#">Owner 4</option>
-                          <option href="#">Owner 5</option>
-                          <option href="#" selected>Select an Owner</option>
-                      </select>
-                  </form>
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-sm-2" for="text-gallery" style="text-align: right;">Exhibit:</label>
-                  <form class="form-group; col-sm-10; container">
-                      <select width=300 style="width: 350px" required>
-                          <option href="#">Exhibit 1</option>
-                          <option href="#">Exhibit 2</option>
-                          <option href="#">Exhibit 3</option>
-                          <option href="#">Exhibit 4</option>
-                          <option href="#">Exhibit 5</option>
-                          <option href="#" selected>Select an Exhibit</option>
-                      </select>
-                  </form>
-                </div> 
                 
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="select-artist">Artist:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-artist">
+                      <option selected>Select an Artist</option>
+                  </select></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="select-owner">Owner:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-owner">
+                      <option selected>Select an Owner</option>
+                  </select></div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="select-exhibit">Exhibit:</label>
+                  <div class="col-sm-10"><select class="form-control" id="select-exhibit">
+                      <option selected>Select an Exhibit</option>
+                  </select></div>
+                </div>
                 <br>
                 <div class="form-group">   
                     <label class="control-label col-sm-2"></label>     
                     <div class="col-sm-10">
-                        <button type="submit" class="btn btn-default" id="button-register-art" name="button-register-art">Register Artwork</button>
+                        <button type="submit" class="btn btn-default" id="button-register-artwork" name="button-register-artwork">Register Artwork</button>
                     </div>
                 </div>
             </form>        
