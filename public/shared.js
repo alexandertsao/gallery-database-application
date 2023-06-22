@@ -36,6 +36,32 @@ function postToServer(query, callbackSuccess, callbackFail, arg1, arg2) {
     alert("POST: " + query);
 }
 
+function silentPost(query, callbackSuccess, callbackFail, arg1, arg2) {
+	const xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://localhost:3000/sql");
+	xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+	xhr.onload = () => {
+	  if (xhr.readyState == 4 && xhr.status == 200) {
+        if (callbackSuccess != undefined) {
+            if (arg2 != undefined) {
+                callbackSuccess(xhr.responseText, arg1, arg2);
+            } else if (arg1 != undefined) {
+                callbackSuccess(xhr.responseText, arg1);
+            } else {
+                callbackSuccess(xhr.responseText);
+            }   
+        }
+	  } else {
+        console.log(xhr.status);
+        console.log(xhr.responseText);
+        if (callbackFail != undefined)
+            callbackFail(xhr.responseText);
+	  }
+	};
+	xhr.send(query);
+    //alert("POST: " + query);
+}
+
 /**
  * Sends an multiple SQL queries in the form of an array
  * in succession, one after another.
@@ -165,6 +191,7 @@ function inputArrayToString(inputArray) {
 }
 
 export {postToServer, 
+        silentPost,
         multiPostToServer, 
         toSQL, 
         alertDatabaseError, 
