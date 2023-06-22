@@ -57,63 +57,44 @@
             <h3>View Exhibits</h3><hr>
             <form class="form-horizontal" id="form-view-exhibits" action="">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="email">Search:</label>
-                    <div class="col-sm-10">
-                    <input type="text" class="form-control" id="text-query" placeholder="Enter an exhibit name or ID #" name="text-query">
-                    </div>
+                  <label class="control-label col-sm-2" for="text-search">Search:</label>
+                  <div class="col-sm-10">
+                  <input type="text" class="form-control" id="text-search" placeholder="Enter an exhibit name or ID #" name="text-search">
+                  </div>
                 </div>
-                <br>
-
                 <div class="form-group">  
-                    <label class="control-label col-sm-2">Filter by:</label>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="font-weight:400;">Gallery(s):</label>   
-                        <form id="form2">
-                            <select width=300 style="width: 350px" size="4" multiple>
-                                <option href="#">Gallery 1</option>
-                                <option href="#">Gallery 2</option>
-                                <option href="#">Gallery 3</option>
-                                <option href="#">Gallery 4</option>
-                                <option href="#">Gallery 5</option>
-                            </select>
-                        </form>
-                        <p class="col-sm-0" style="text-align:center">*Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-                    </div>   
+                  <label class="control-label col-sm-2">Filter by:</label>
+                  <label class="control-label col-sm-2" style="font-weight:400;">Gallery(s): </label>   
+                    <div class="col-sm-8"><select class="form-control" id="select-gallery-multiple" size="4" multiple>
+                      <!-- <option href="#">Gallery 1</option>
+                      <option href="#">Gallery 2</option>
+                      <option href="#">Gallery 3</option>
+                      <option href="#">Gallery 4</option>
+                      <option href="#">Gallery 5</option> -->
+                    </select><p align="right"><i>Use Ctrl/Cmd to select multiple options.</i></p></div>
                 </div>   
-
-                <div class="form-group" style="text-indent: 40%">
-                    <label class="control-label col-sm-2" style="font-weight:400;" for="date-start">Start Date:</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="date-start" name="date-start">
-                    </div>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="form-group" style="text-indent: 44%">
-                    <label class="control-label col-sm-2" style="font-weight:400;" for="date-end">End Date:</label>
-                    <div class="col-sm-10">
-                        <input type="date" class="form-control" id="date-start" name="date-start">
-                    </div>
-                </div>
-                <br>
-                <br>
-
-              <div class="form-group" style="text-indent: 50%">  
+                <div class="form-group">
+                  <label class="control-label col-sm-2" for="date-start">Start Date:</label>
+                  <div class="col-sm-10">
+                      <input type="date" class="form-control" id="date-start" name="date-start">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-sm-2" for="date-end">End Date:</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="date-end" name="date-end">
+                  </div>
+              </div>
+              <div class="form-group">  
                 <label class="control-label col-sm-2">Display:</label>      
-                <div class="col-sm-13">
+                <div class="col-sm-10">
                   <div class="checkbox">
-                    <!--
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-id" name="checkbox-display" checked>ID #</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-title" name="checkbox-display" checked>Title</label> -->
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-gallery" name="checkbox-display" checked>Gallery</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-state-startdate" name="checkbox-display" checked>Start Date</label>
-                    <label class="col-sm-2"><input type="checkbox" id="checkbox-display-postal-enddate" name="checkbox-display" checked>End Date</label>
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-gallery" name="checkbox-display" checked>Gallery</label>
+                    <label class="col-sm-3"><input type="checkbox" id="checkbox-display-start-date" name="checkbox-display" checked>Start Date</label>
+                    <label class="col-sm-4"><input type="checkbox" id="checkbox-display-end-date" name="checkbox-display" checked>End Date</label>
                   </div>
                 </div>
               </div>
-              <br>
-              <br>
               <div class="form-group">        
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-default">Search Exhibits</button>

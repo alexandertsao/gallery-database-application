@@ -224,6 +224,8 @@ function updateSuccess(response, currentId, divTextIds) {
         document.getElementById(divTextIds[i]).innerHTML = newValue;
     }
 
+    alert("Gallery successfully updated.");
+
     document.getElementById("button-edit-"+ currentId).style.display = "block";
     document.getElementById("button-update-" + currentId).style.display = "none";
     document.getElementById("button-cancel-" + currentId).style.display = "none";
@@ -266,6 +268,7 @@ function onClickDelete(event) {
 function deleteSuccess(response, currentId) {
     var rowIndex = document.getElementById("tr-gallery-" + currentId).rowIndex;
     document.getElementById("table-galleries").deleteRow(rowIndex);
+    alert("Gallery successfully deleted.");
 }
 
 /**
@@ -322,7 +325,7 @@ function loadTable(response, args) {
 
     var data = JSON.parse(response);
     if (data.length == 0) {
-        document.getElementById("tbody-galleries").innerHTML = "No results matching the provided query found.";
+        document.getElementById("tbody-galleries").innerHTML = "No results found matching the provided query.";
         return;
     }
 
