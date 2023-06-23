@@ -76,18 +76,6 @@ CREATE TABLE Makes (
 		ON DELETE CASCADE
 );
 
-CREATE TABLE Displays (
-	art_id 		INT,
-	gallery_id 	INT,
-	PRIMARY KEY (art_id, gallery_id),
-	FOREIGN KEY (art_id) REFERENCES Art (art_id)
-		ON UPDATE CASCADE 
-		ON DELETE CASCADE,
-	FOREIGN KEY (gallery_id) REFERENCES Gallery (gallery_id)
-		ON UPDATE CASCADE 
-		ON DELETE CASCADE
-);
-
 CREATE TABLE Digital (
 	art_id 		INT,
 	url 		VARCHAR(255),

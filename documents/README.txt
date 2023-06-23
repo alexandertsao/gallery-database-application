@@ -1,1 +1,1 @@
-No extra information.
+The application can be accessed with: http://localhost:3000/galleries/view.html
