@@ -75,11 +75,14 @@ function setupForm() {
         
         var validInput = false;
 
-        const customerId = document.getElementById("customer-not-found").customerId;
-        const customerName = document.getElementById("text-name").value;
+        
+
         const textEmail = document.getElementById("text-email").value;
+        const textCustomerName = document.getElementById("text-name").value;
+        const customerId = document.getElementById("customer-not-found").customerId;
         const selectExhibit = document.getElementById("select-exhibit").value;
         const dateOfVisit = document.getElementById("date-of-visit").value;
+        const textPrice = document.getElementById("text-price").value;
         if (
             validator.isEmail(textEmail) && validator.isLength(textEmail, { min: 0, max: 255 }) &&
             (selectExhibit != 0)
@@ -89,16 +92,27 @@ function setupForm() {
             alert("Input is invalid.");
         }
 
-        const inputArray = [customerId, selectExhibit, dateOfVisit, textEmail];
+        const inputArray = [customerId, selectExhibit, dateOfVisit, textPrice];
 
         if (validInput) {
-            var query = "INSERT INTO Visits (customer_id, exhibit_id, date, price) VALUES(" + 
-                         inputArrayToString(inputArray) + ");";
 
-            postToServer(toSQL(query), 
-                         registerSuccess, 
-                         alertDatabaseError, 
-                         customerName);
+            var query1 = "INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id) VALUES(" +
+                         customerId + ", " +
+                         "STR_TO_DATE(" + "'" + dateOfVisit + "', '%Y-%m-%d'), " +
+                         selectExhibit + "" +
+                         ");"
+
+            var query2 = "INSERT INTO Visits (customer_id, exhibit_id, date, price) VALUES(" + 
+                        customerId + ", " +
+                        selectExhibit + ", " +
+                        "STR_TO_DATE(" + "'" + dateOfVisit + "', '%Y-%m-%d'), " +
+                        addSingleQuotesOrNULL(textPrice) +
+                        ");";
+
+            const queryArray = [{query: query1, func: undefined, arg1: undefined, arg2: undefined},
+                                {query: query2, func: registerSuccess, arg1: undefined, arg2: undefined}]
+
+            multiPostToServer("", queryArray, alertDatabaseError);
         }
 
       });

@@ -1,17 +1,17 @@
 -- Aggregation w/ Group By: A user can select a gallery to see how many artworks are in it.
 -- Result should be a table grouped by gallery, displaying galleryID, gallery name, and the number of artworks 
-SELECT g.gallery_id, g.name, Count(a.art_id)
+SELECT g.gallery_id, g.name, Count(a.art_id) AS num_artworks
 FROM Art a, Exhibit e, Gallery g
 WHERE a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id AND (e.gallery_id = _user_input__ OR e.gallery_id = _user_input__ … )
 GROUP BY e.gallery_id;
 
 -- Aggregation w/ Having: A user can view the number of customers in exhibits with a minimum number of customers set by the user. 
 -- Result should be a table grouped by exhibit, displaying exhibitID, exhibit title, and the number of customers 
-SELECT v.exhibit_id, title, Count(customer_id)
+SELECT v.exhibit_id, title, Count(customer_id) AS num_customers
 FROM Visits v, Exhibit e
 WHERE v.exhibit_id = e.exhibit_id
 GROUP BY v.exhibit_id
-HAVING Count(*) > __user_input__ ;
+HAVING Count(*) >= __user_input__ ;
 
 -- Nested Aggregation: Age of Artists with Oldest Artwork:
 -- Find the average birth year of artists who have made artworks older than the average age of all artworks in a gallery.
