@@ -560,19 +560,34 @@ INSERT INTO Transfers (art_id, origin, date, destination)
 VALUES(12, 5, '2024-01-27', 3);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
-VALUES(1, '2022-04-02', 1);
+VALUES (1, '2022-04-02', 1);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
-VALUES(2, '2022-11-30', 2);
+VALUES (2, '2022-04-01', 1);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
-VALUES(3, '2022-07-21', 3);
+VALUES (3, '2022-04-12', 1);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
-VALUES(4,  '2022-03-15', 4);
+VALUES (4, '2022-04-03', 1);
 
 INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
-VALUES(5, '2022-08-03', 5);
+VALUES (2, '2022-11-30', 2);
+
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
+VALUES (1, '2022-11-20', 2);
+
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
+VALUES (3, '2022-11-12', 2);
+
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
+VALUES (3, '2022-07-21', 3);
+
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
+VALUES (4, '2022-03-15', 4);
+
+INSERT INTO CustomerVisitsExhibit (customer_id, date, exhibit_id)
+VALUES (5, '2022-08-03', 5);
 
 INSERT INTO ExhibitCharges (exhibit_id, price, price_group)
 VALUES(1, 50, 'Adult');
@@ -623,7 +638,22 @@ INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (1, 1, '2022-04-02', 50);
 
 INSERT INTO Visits (customer_id, exhibit_id, date, price)
+VALUES (2, 1, '2022-04-01', 50);
+
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
+VALUES (3, 1, '2022-04-12', 50);
+
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
+VALUES (4, 1, '2022-04-03', 50);
+
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (2, 2, '2022-11-30', 50);
+
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
+VALUES (1, 2, '2022-11-20', 50);
+
+INSERT INTO Visits (customer_id, exhibit_id, date, price)
+VALUES (3, 2, '2022-11-12', 50);
 
 INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (3, 3, '2022-07-21', 40);
