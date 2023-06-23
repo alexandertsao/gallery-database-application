@@ -1,3 +1,16 @@
+-- Edit button in View Galleries:
+UPDATE Galleries
+SET Name = ‘Vancouver Art Gallery’, Type = ‘Art Gallery’, Address = ‘750 Hornby St’
+WHERE ID# = 1000;
+
+-- Delete button in View Galleries:
+DELETE FROM Galleries WHERE ID# = 1000;
+
+-- Join: A user can select artworks or exhibits or artists to see what artworks are contained in which exhibits and made by which artists.
+SELECT e.exhibit_id, e.title, a.art_id, a.title, m.artist_id, m.name
+FROM Exhibit e, Art a, Artist m
+WHERE e.exhibit_id = a.exhibit_id AND a.artist_id = m.artist_id AND (e.exhibit_id = _user_input__ OR a.artist_id = _user_input__ OR a.art_id = _user_input__) ;
+
 -- Aggregation w/ Group By: A user can select a gallery to see how many artworks are in it.
 -- Result should be a table grouped by gallery, displaying galleryID, gallery name, and the number of artworks 
 SELECT g.gallery_id, g.name, Count(a.art_id) AS num_artworks
@@ -11,7 +24,7 @@ SELECT v.exhibit_id, title, Count(customer_id) AS num_customers
 FROM Visits v, Exhibit e
 WHERE v.exhibit_id = e.exhibit_id
 GROUP BY v.exhibit_id
-HAVING Count(*) >= __user_input__ ;
+HAVING Count(*) > __user_input__ ;
 
 -- Nested Aggregation: Age of Artists with Oldest Artwork:
 -- Find the average birth year of artists who have made artworks older than the average age of all artworks in a gallery.
@@ -25,7 +38,7 @@ WHERE a.artist_id = m.artist_id AND a.exhibit_id = e.exhibit_id AND
                         FROM Art a2, Exhibit e2, Gallery g2 
                         WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = __user_input__);
 
-SELECT AVG(birth_year)
+SELECT AVG(birth_year) AS avg_birth_year
 FROM ArtistsWithOldArt;
 
 -- Division: A user can select a gallery and see which customers have visited every exhibit in that gallery.
@@ -39,4 +52,3 @@ WHERE NOT EXISTS ((SELECT exhibit_id
                   	(SELECT exhibit_id
                     FROM Visits v
 		            WHERE v.customer_id = c.customer_id));
-
