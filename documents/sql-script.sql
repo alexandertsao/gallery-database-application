@@ -679,7 +679,7 @@ UPDATE Gallery
 SET name = 'Test Museum' 
 WHERE gallery_id = 12;
 
--- UPDATE Museum: 
+UPDATE Museum
 SET address = '750 Test St', city = 'Vancouver', state_province = 'WA', postal_code = 'V67 2HZ', country = 'Washington' 
 WHERE gallery_id = 12;
 
