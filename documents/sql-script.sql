@@ -652,54 +652,79 @@ VALUES (4, 4, '2022-03-15', 25);
 INSERT INTO Visits (customer_id, exhibit_id, date, price)
 VALUES (5, 5, '2022-08-03', 50);
 
+-- Selection of galleries:
+SELECT 'Museum' AS 'type', g1.gallery_id, g1.name, address, city, state_province, postal_code, country, NULL AS url 
+FROM Gallery g1, Museum m 
+WHERE g1.gallery_id = m.gallery_id AND (g1.gallery_id LIKE '%%' OR g1.name LIKE '%%') 
+UNION 
+SELECT 'Art Gallery' AS 'type', g2.gallery_id, g2.name, address, city, state_province, postal_code, country, NULL AS url 
+FROM Gallery g2, Art_Gallery a 
+WHERE g2.gallery_id = a.gallery_id AND (g2.gallery_id LIKE '%%' OR g2.name LIKE '%%') 
+UNION 
+SELECT 'Virtual Art Gallery' AS 'type', g3.gallery_id, g3.name, NULL AS address, NULL AS city, NULL AS state_province, NULL AS postal_code, NULL AS country, url 
+FROM Gallery g3, Virtual_Art_Gallery v 
+WHERE g3.gallery_id = v.gallery_id AND (g3.gallery_id LIKE '%%' OR g3.name LIKE '%%');
+
+-- Projection of galleries:
+SELECT 'Art Gallery' AS 'type', g2.gallery_id, g2.name, address 
+FROM Gallery g2, Art_Gallery a 
+WHERE g2.gallery_id = a.gallery_id AND (g2.gallery_id LIKE '%%' OR g2.name LIKE '%%') 
+UNION 
+SELECT 'Virtual Art Gallery' AS 'type', g3.gallery_id, g3.name, NULL AS address 
+FROM Gallery g3, Virtual_Art_Gallery v 
+WHERE g3.gallery_id = v.gallery_id AND (g3.gallery_id LIKE '%%' OR g3.name LIKE '%%');
+
 -- Edit button in View Galleries:
-UPDATE Galleries
-SET Name = ‘Vancouver Art Gallery’, Type = ‘Art Gallery’, Address = ‘750 Hornby St’
-WHERE ID# = 1000;
+UPDATE Gallery 
+SET name = 'Test Museum' 
+WHERE gallery_id = 12;
+
+-- UPDATE Museum: 
+SET address = '750 Test St', city = 'Vancouver', state_province = 'WA', postal_code = 'V67 2HZ', country = 'Washington' 
+WHERE gallery_id = 12;
 
 -- Delete button in View Galleries:
-DELETE FROM Galleries WHERE ID# = 1000;
+DELETE FROM Gallery WHERE gallery_id = 12;
 
--- Join: A user can select artworks or exhibits or artists to see what artworks are contained in which exhibits and made by which artists.
-SELECT e.exhibit_id, e.title, a.art_id, a.title, m.artist_id, m.name
-FROM Exhibit e, Art a, Artist m
-WHERE e.exhibit_id = a.exhibit_id AND a.artist_id = m.artist_id AND (e.exhibit_id = _user_input__ OR a.artist_id = _user_input__ OR a.art_id = _user_input__) ;
+-- Join Query (between Art, Artist, and Exhibit):
+SELECT art1.art_id, art1.title AS art_title, owner1.name AS owner_name, artist1.name AS artist_name, artist1.birth_year, artist1.death_year, exhibit1.title AS exhibit_title, gallery1.name AS gallery_name 
+FROM Art art1, Artist artist1, Owner owner1, Exhibit exhibit1, Gallery gallery1 
+WHERE art1.artist_id = artist1.artist_id AND art1.owner_id = owner1.owner_id AND art1.exhibit_id = exhibit1.exhibit_id AND exhibit1.gallery_id = gallery1.gallery_id AND (art1.title LIKE '%%' OR art1.art_id LIKE '%%') AND (art1.artist_id = 1 OR art1.artist_id = 2) 
+UNION 
+SELECT art1.art_id, art1.title AS art_title, owner1.name AS owner_name, artist1.name AS artist_name, artist1.birth_year, artist1.death_year, NULL as exhibit_title, NULL as gallery_name 
+FROM Art art1, Artist artist1, Owner owner1 
+WHERE art1.artist_id = artist1.artist_id AND art1.owner_id = owner1.owner_id AND art1.exhibit_id IS NULL AND (art1.title LIKE '%%' OR art1.art_id LIKE '%%') AND (art1.artist_id = 1 OR art1.artist_id = 2);
 
 -- Aggregation w/ Group By: A user can select a gallery to see how many artworks are in it.
--- Result should be a table grouped by gallery, displaying galleryID, gallery name, and the number of artworks 
-SELECT g.gallery_id, g.name, Count(a.art_id) AS num_artworks
-FROM Art a, Exhibit e, Gallery g
-WHERE a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id AND (e.gallery_id = _user_input__ OR e.gallery_id = _user_input__ … )
+SELECT g.gallery_id, g.name, Count(a.art_id) AS num_artworks 
+FROM Art a, Exhibit e, Gallery g 
+WHERE a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id  AND (e.gallery_id = 1 OR e.gallery_id = 2) 
 GROUP BY e.gallery_id;
 
--- Aggregation w/ Having: A user can view the number of customers in exhibits with a minimum number of customers set by the user. 
--- Result should be a table grouped by exhibit, displaying exhibitID, exhibit title, and the number of customers 
-SELECT v.exhibit_id, title, Count(customer_id) AS num_customers
-FROM Visits v, Exhibit e
-WHERE v.exhibit_id = e.exhibit_id
-GROUP BY v.exhibit_id
-HAVING Count(*) > __user_input__ ;
+-- Aggregation w/ Having: A user can view the number of customers in exhibits with a minimum number of customers set by the user.
+SELECT v.exhibit_id, title, Count(customer_id) AS num_customers 
+FROM Visits v, Exhibit e 
+WHERE v.exhibit_id = e.exhibit_id 
+GROUP BY v.exhibit_id 
+HAVING Count(*) >= 3;
 
--- Nested Aggregation: Age of Artists with Oldest Artwork:
--- Find the average birth year of artists who have made artworks older than the average age of all artworks in a gallery.
--- Result should display average birth_year -->
-SELECT AVG(birth_year) AS avg_birth_year
-FROM Artist m
-WHERE m.artist_id IN (SELECT DISTINCT m1.artist_id
-                      FROM Art a, Artist m1, Exhibit e, Gallery g
-                      WHERE a.artist_id = m1.artist_id AND a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id AND 
-               			  a.year_created < (SELECT AVG(a2.year_created) 
-         			                          FROM Art a2, Exhibit e2, Gallery g2 
-          			                        WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = __user_input__));
-
+-- Nested Aggregation: Find the average birth year of artists who have made artworks older than the average age of all artworks in a gallery.
+SELECT AVG(birth_year) AS avg_birth_year 
+FROM Artist m 
+WHERE m.artist_id IN (SELECT DISTINCT m1.artist_id 
+                        FROM Art a, Artist m1, Exhibit e, Gallery g 
+                        WHERE a.artist_id = m1.artist_id AND a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id AND 
+                        a.year_created < (SELECT AVG(a2.year_created) 
+    			                            FROM Art a2, Exhibit e2, Gallery g2 
+                                            WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = 1));
+			      
 -- Division: A user can select a gallery and see which customers have visited every exhibit in that gallery.
--- Result should be a table displaying customerID and customer name -->
-SELECT c.customer_id, c.name
-FROM Customer c
-WHERE NOT EXISTS ((SELECT exhibit_id
-			        FROM Exhibit 
-                    WHERE gallery_id = __user_input_ )
-                    EXCEPT
-                  	(SELECT exhibit_id
-                    FROM Visits v
-		            WHERE v.customer_id = c.customer_id));
+SELECT c.customer_id, c.name 
+FROM Customer c 
+WHERE NOT EXISTS ((SELECT exhibit_id 
+                    FROM Exhibit 
+  			        WHERE gallery_id = 1) 
+                    EXCEPT 
+                    (SELECT exhibit_id 
+                    FROM Visits v 
+                    WHERE v.customer_id = c.customer_id));
