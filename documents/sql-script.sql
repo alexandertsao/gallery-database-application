@@ -675,7 +675,7 @@ WHERE a.artist_id = m.artist_id AND a.exhibit_id = e.exhibit_id AND
                         FROM Art a2, Exhibit e2, Gallery g2 
                         WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = __user_input__);
 
-SELECT AVG(birth_year)
+SELECT AVG(birth_year) AS avg_birth_year
 FROM ArtistsWithOldArt;
 
 -- Division: A user can select a gallery and see which customers have visited every exhibit in that gallery.

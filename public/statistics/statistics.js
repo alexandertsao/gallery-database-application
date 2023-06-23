@@ -177,6 +177,124 @@ function setupFormExhibitPopularity() {
     })
 }
 
+/**
+ * 
+ * @param {*} response 
+ */
+function loadResultOAOA(response) {
+    var resultHTML = "Average birth year: ";
+    var result = JSON.parse(response);
+    if (result[0].avg_birth_year == null) {
+        resultHTML = "There are no artworks in this gallery.";
+    } else {
+        resultHTML += result[0].avg_birth_year;
+    }
+    document.getElementById("result-oaoa").innerHTML = resultHTML;
+}
+
+/**
+* Adds a listener to the old art and old artists form.
+*/
+function setupFormOldArtandOldArtists() {
+    var registerForm = document.getElementById("form-old-art-and-old-artists");
+    registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        var validInput = false;
+
+        const selectGallery = document.getElementById("select-gallery-oaoa").value;
+
+        if (selectGallery != 0) validInput = true;
+
+        if (validInput) {
+            var query = "SELECT AVG(birth_year) AS avg_birth_year " +
+                         "FROM Artist m " +
+                         "WHERE m.artist_id IN " +
+                         "(SELECT DISTINCT m1.artist_id " +
+                         "FROM Art a, Artist m1, Exhibit e, Gallery g " +
+                         "WHERE a.artist_id = m1.artist_id AND a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id " +
+                         "AND a.year_created < " +
+                         "(SELECT AVG(a2.year_created) " +
+                         "FROM Art a2, Exhibit e2, Gallery g2 " +
+                         "WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id " +
+                         "AND g2.gallery_id = " +
+                         selectGallery + 
+                         "));";
+
+            postToServer(toSQL(query), loadResultOAOA, alertDatabaseError);
+        } else {
+            alert("Input is invalid");
+        }
+
+    })
+}
+
+/**
+* Callback function to load the table after a successful database retrieval.
+* @param {*} response 
+* @param {*} args 
+* @returns 
+*/
+function loadTableLoyalCustomers(response, args) {
+    document.getElementById("tr-loyal-customers-colnames").innerHTML = null;
+    document.getElementById("tbody-loyal-customers").innerHTML = null;
+
+    var data = JSON.parse(response);
+    if (data.length == 0) {
+        document.getElementById("tbody-loyal-customers").innerHTML = "No data found matching the provided query.";
+        return;
+    }
+
+    var colnamesHTML = "<th>Customer ID #</th>" +
+                       "<th>Customer Name</th>";
+
+    document.getElementById("tr-loyal-customers-colnames").innerHTML = colnamesHTML;
+
+    var tableHTML = "";
+    for (var i = 0; i < data.length; i++) {
+        var currentId = data[i].exhibit_id;
+        tableHTML += "<tr id='tr-lc-" + currentId + "'>" +
+                     "<td id='td-lc-customer-id-" + currentId + "'>" + data[i].customer_id + "</td>" +
+                     "<td id='td-lc-customer-name-" + currentId + "'>" + data[i].name + "</td>" +
+                    "</tr>"; 
+    }
+
+    document.getElementById("tbody-loyal-customers").innerHTML = tableHTML;
+}
+
+/**
+* Adds a listener to the loyal customers form.
+*/
+function setupFormLoyalCustomers() {
+    var registerForm = document.getElementById("form-loyal-customers");
+    registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        var validInput = false
+        const selectGallery = document.getElementById("select-gallery-loyal-customers").value;
+        if (selectGallery != 0) validInput = true;
+
+        if (validInput) {
+        var query = "SELECT c.customer_id, c.name " +
+                    "FROM Customer c " +
+                    "WHERE NOT EXISTS (" +
+                    "(SELECT exhibit_id " +
+                    "FROM Exhibit " +
+                    "WHERE gallery_id = " +
+                    selectGallery +
+                    ") " +
+                    "EXCEPT " +
+                    "(SELECT exhibit_id " +
+                    "FROM Visits v " +
+                    "WHERE v.customer_id = c.customer_id));";
+        postToServer(toSQL(query), loadTableLoyalCustomers);
+        } else {
+            alert("Input is invalid.");
+        }
+        
+    })
+}
+
 /** 
 * Call function to setup search form on page load.
 */
@@ -185,6 +303,6 @@ $(function() {
     setupSelectGallery(); //for Old Art and Old Artists, and Loyal Customers
     setupFormArtworksPerGallery();
     setupFormExhibitPopularity();
-    // setupFormOldArtandOldArtists();
-    // setupFormLoyalCustomers();
+    setupFormOldArtandOldArtists();
+    setupFormLoyalCustomers();
 });
