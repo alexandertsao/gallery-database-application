@@ -29,17 +29,14 @@ HAVING Count(*) > __user_input__ ;
 -- Nested Aggregation: Age of Artists with Oldest Artwork:
 -- Find the average birth year of artists who have made artworks older than the average age of all artworks in a gallery.
 -- Result should display average birth_year -->
-CREATE VIEW ArtistsWithOldArt(artist_id, birth_year) AS
-SELECT DISTINCT m.artist_id, m.birth_year
-FROM Art a, Artist m, Exhibit e, Gallery g
-WHERE a.artist_id = m.artist_id AND a.exhibit_id = e.exhibit_id AND 
-    e.gallery_id = g.gallery_id AND 
-    a.year_created < (SELECT AVG(a2.year_created) 
-                        FROM Art a2, Exhibit e2, Gallery g2 
-                        WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = __user_input__);
-
 SELECT AVG(birth_year) AS avg_birth_year
-FROM ArtistsWithOldArt;
+FROM Artist m
+WHERE m.artist_id IN (SELECT DISTINCT m1.artist_id
+                      FROM Art a, Artist m1, Exhibit e, Gallery g
+                      WHERE a.artist_id = m1.artist_id AND a.exhibit_id = e.exhibit_id AND e.gallery_id = g.gallery_id AND 
+               			  a.year_created < (SELECT AVG(a2.year_created) 
+         			                          FROM Art a2, Exhibit e2, Gallery g2 
+          			                        WHERE a2.exhibit_id = e2.exhibit_id AND e2.gallery_id = g2.gallery_id AND g2.gallery_id = __user_input__));
 
 -- Division: A user can select a gallery and see which customers have visited every exhibit in that gallery.
 -- Result should be a table displaying customerID and customer name -->
