@@ -44,7 +44,7 @@ SELECT c.customer_id, c.name
 FROM Customer c
 WHERE NOT EXISTS ((SELECT exhibit_id
 			        FROM Exhibit 
-                    WHERE gallery_id = ___ )
+                    WHERE gallery_id = _user_input_ )
                     EXCEPT
                   	(SELECT exhibit_id
                     FROM Visits v
