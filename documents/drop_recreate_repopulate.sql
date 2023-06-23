@@ -10,7 +10,7 @@ DROP TABLE Manages ;
 DROP TABLE Painting ;
 DROP TABLE Sculpture ;
 DROP TABLE Digital ;
-DROP TABLE Displays ;
+
 DROP TABLE Makes ;
 DROP TABLE Art ;
 DROP TABLE Exhibit ;
@@ -95,18 +95,6 @@ CREATE TABLE Makes (
 		ON UPDATE CASCADE 
 		ON DELETE CASCADE,
 	FOREIGN KEY (artist_id) REFERENCES Artist (artist_id) 
-		ON UPDATE CASCADE 
-		ON DELETE CASCADE
-);
-
-CREATE TABLE Displays (
-	art_id 		INT,
-	gallery_id 	INT,
-	PRIMARY KEY (art_id, gallery_id),
-	FOREIGN KEY (art_id) REFERENCES Art (art_id)
-		ON UPDATE CASCADE 
-		ON DELETE CASCADE,
-	FOREIGN KEY (gallery_id) REFERENCES Gallery (gallery_id)
 		ON UPDATE CASCADE 
 		ON DELETE CASCADE
 );
